@@ -1,122 +1,102 @@
 body {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    background-color: #f8f9fa;
+    font-family: sans-serif;
+    background-color: #13264D;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-/*Decore Index, About*/
-
-article.content {
+ 
+/* ======== Contenedor principal ======== */
+article.content{  
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
     width: 750px;
-    margin: 0 auto;
-    background: linear-gradient(to right, #e0e0e0, #c9c9c9);
+    margin: 40px auto 60px auto;
+    background-color: white;
     border-radius: 10px;
     padding: 50px 0 60px 0;
-
     text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-
+ 
 .content h1 {
     font-size: 2em;
     margin-bottom: 20px;
+    color: #01B690;
 }
-
+ 
 .content .message {
-    color: green;
+    color: black;
     margin-bottom: 15px;
     font-size: 14px;
 }
-
+ 
 .content .content-action {
     margin-top: 20px;
     width: 250px;
-    padding: auto;
     display: flex;
     justify-content: space-between;
 }
-
-.content .btn {
+ 
+/* ======== Botones generales ======== */
+.content .btn,
+.content a.signup,
+.content a.login,
+.content-form .submit {
     display: inline-block;
     width: 150px;
     margin: 10px;
     font-size: 12px;
-    padding: 8px 18px;
-    background-color: blue;
-    color: white;
+    padding: 10px 20px;
+    background: #FEE652;
+    font-weight: bold;
     text-decoration: none;
+    border: none;
     border-radius: 5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
-
-.content a.singup {
-  /*color button orange gradient*/
-    background: linear-gradient(45deg, orange, darkorange);
-    color: white;
+ 
+/* Hover efecto */
+.content .btn:hover,
+.content a.signup:hover,
+.content a.login:hover,
+.content-form .submit:hover {
+    background: linear-gradient(45deg, #FFD500, #E6B800);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
-
-.content a.login {
-    background: linear-gradient(45deg, blue, darkblue);
-    color: white;
-     
-}
-
-
-
-/*Content-form login, signup contact*/
-
+ 
+/* ======== Formularios ======== */
+ 
 .content-form h1 {
     text-align: center;
     margin-top: 20px;
-    /*paddin top righ*/
     padding: 0 20px 0 0;
 }
-
+ 
 .content-form .error {
     color: red;
     margin-bottom: 15px;
 }
-
+ 
 article.content-form {
     justify-content: center;
     align-items: center;
     display: flex;
     width: 750px;
-    margin: 0 auto;
+    margin: 40px auto 60px auto;
     background: linear-gradient(to right, #f0f0f0, #d9d9d9);
     border-radius: 10px;
     padding: 30px;
 }
-
-.content-form aside.title-decor {
-    /*padding top left right botton*/
-    padding: 0 0 0 60px;
-}
-
-.content-form h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.content-form .message {
-    color: green;
-    margin-bottom: 8px;
-    font-size: 14px;
-    text-align: left;
-
-}
-
-.content-form .form {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
+ 
 .content-form form {
     display: flex;
     flex-direction: column;
@@ -125,119 +105,114 @@ article.content-form {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /*Margin rigth top left botton*/
-    margin: 20px 20px 20px 20px;
+    margin: 20px;
 }
-
-.content-form form.login {
-    width: 100%;
-    max-width: 300px;
-}
-
-.content-form form.signup {
-    width: 300%;
-    max-width: 300px;
-}
-
-.content-form form.contact {
-    margin-left: 45px;
-    width: 75%;
-}
-
+ 
 .content-form .form-group {
     margin-bottom: 15px;
 }
-
+ 
 .content-form label {
     margin-bottom: 5px;
     font-weight: bold;
 }
-
-.content-form input {
+ 
+.content-form input,
+.content-form textarea {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
     box-sizing: border-box;
 }
-
-.content-form .contact textarea {
-    height: 100px;
-    width: 100%;
-    resize: vertical;
-}
-
-.content-form .submit {
-    padding: 5px 15px 5px 15px;
-    background-color: blue;
-    color: white;
-    border-radius: 5px;
-}
-
-.content-form .submit:hover {
-    background-color: darkblue;
-    cursor: pointer;
-}
-
+ 
 .content-form .form-links {
     margin-top: 10px;
     text-align: center;
 }
-
+ 
 .form-links a {
-    color: blue;
+    color: #13264D;
     text-decoration: none;
     font-size: 10px;
 }
-
-/*resposive mobile*/
+ 
+/* ======== Navbar ======== */
+.custom-navbar {
+    background-color: #ffffff;
+    border: none;
+}
+ 
+.navbar-brand img {
+    height: 60px;
+}
+ 
+.navbar-nav .nav-link {
+    color: #13264D;
+    font-weight: 600;
+    margin: 0 12px;
+    transition: color 0.3s ease;
+}
+ 
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #00163a;
+}
+ 
+/* ======== Responsividad ======== */
 @media (max-width: 600px) {
-
-    /*vertical content without columns*/
     article.content-form {
         width: 100%;
         padding: 10px;
     }
-
+ 
     .content-form form {
         padding: 10px;
     }
-
+ 
     .content-form h1 {
         font-size: 1.5em;
     }
-
+ 
     .content-form input {
         font-size: 1em;
     }
-
+ 
     .content-form .submit {
         width: 100%;
     }
-
 }
-
-
-/*Resonsive tablet*/
+ 
 @media (max-width: 900px) and (min-width: 601px) {
     article.content-form {
         width: 90%;
         padding: 15px;
     }
-
+ 
     .content-form form {
         padding: 15px;
     }
-
+ 
     .content-form h1 {
         font-size: 1.75em;
     }
-
+ 
     .content-form input {
         font-size: 1.1em;
     }
-
+ 
     .content-form .submit {
         width: 100%;
     }
 }
+ 
+@media (max-width: 992px) {
+    .navbar-nav {
+        margin-top: 10px;
+    }
+ 
+    .navbar-nav .nav-link {
+        margin: 6px 0;
+    }
+}
+ 

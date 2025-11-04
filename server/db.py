@@ -5,9 +5,9 @@ from mysql.connector import errorcode
 # Configuración de la conexión MySQL
 db_config = {
     'user': 'root',
-    'password': 'root1234',
+    'password': 'MySQL1357',
     'host': 'localhost',
-    'database': 'prueba1'
+    'database': 'prueba'
 }
 
 def crear_tabla_usuarios():
