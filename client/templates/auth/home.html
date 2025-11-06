@@ -16,4 +16,186 @@
 
 <p>Utiliza el navbar superior para navegar a tu perfil o cerrar sesión.</p>
 </article>
+
+<main class="home-container">
+
+  <!--Productos-->
+  <section class="category">
+    <h2>Producto</h2>
+    <div id="carousel-producto" class="splide" aria-label="Carrusel de productos">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/laptop.jpg') }}" alt="Laptop">
+            <div class="info">
+              <h3>Laptop</h3>
+              <p>$4,500 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/pines.jpg') }}" alt="Pines">
+            <div class="info">
+              <h3>Pines</h3>
+              <p>$60 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/ropa.jpg') }}" alt="Ropa">
+            <div class="info">
+              <h3>Ropa</h3>
+              <p>$300 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/tableta.jpg') }}" alt="Tableta de dibujo">
+            <div class="info">
+              <h3>Tableta de dibujo</h3>
+              <p>$2,000 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!--Servicios -->
+  <section class="category">
+    <h2>Servicio</h2>
+    <div id="carousel-servicio" class="splide" aria-label="Carrusel de servicios">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/tutorias.jpg') }}" alt="Tutorías">
+            <div class="info">
+              <h3>Tutorías</h3>
+              <p>$200 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/software.jpg') }}" alt="Instalación de software">
+            <div class="info">
+              <h3>Instalación de software</h3>
+              <p>$250 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/modelado.jpg') }}" alt="Modelado 3D">
+            <div class="info">
+              <h3>Modelado 3D</h3>
+              <p>$300 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/comisiones.jpg') }}" alt="Comisiones de dibujo">
+            <div class="info">
+              <h3>Comisiones de dibujo</h3>
+              <p>$500 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!--Comida -->
+  <section class="category">
+    <h2>Comida</h2>
+    <div id="carousel-comida" class="splide" aria-label="Carrusel de comida">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/galletas.jpg') }}" alt="Galletas">
+            <div class="info">
+              <h3>Galletas</h3>
+              <p>$35 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/burritos.jpg') }}" alt="Burritos">
+            <div class="info">
+              <h3>Burritos</h3>
+              <p>$25 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/sandwich.jpg') }}" alt="Sandwich">
+            <div class="info">
+              <h3>Sandwich</h3>
+              <p>$35 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+
+          <li class="splide__slide card">
+            <img src="{{ url_for('static', filename='img/cafe.jpg') }}" alt="Café">
+            <div class="info">
+              <h3>Café</h3>
+              <p>$20 MXN</p>
+            </div>
+            <button class="play-btn">▶</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!--Descripción -->
+  <section class="about">
+    <p>
+      Somos una plataforma web creada para la comunidad universitaria de los campus IADA e IIT de la UACJ, con el objetivo de apoyar la economía estudiantil mediante un espacio seguro, organizado y exclusivo para comprar y vender productos o servicios entre alumnos y docentes.
+    </p>
+  </section>
+
+  <!--Contacto -->
+  <footer class="footer">
+    <h2>Contáctanos</h2>
+    <div class="columns">
+      <div><p>Lorem ipsum dolor sit amet.</p></div>
+      <div><p>Lorem ipsum dolor sit amet.</p></div>
+      <div><p>Lorem ipsum dolor sit amet.</p></div>
+    </div>
+  </footer>
+
+</main>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const settings = {
+      type: 'loop',
+      perPage: 3,
+      perMove: 1,
+      gap: '1rem',
+      pagination: false,
+      arrows: true,
+      breakpoints: {
+        768: { perPage: 2 },
+        480: { perPage: 1 },
+      }
+    };
+    new Splide('#carousel-producto', settings).mount();
+    new Splide('#carousel-servicio', settings).mount();
+    new Splide('#carousel-comida', settings).mount();
+  });
+</script>
+{% endblock %}
+
