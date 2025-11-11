@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_bcrypt import Bcrypt
-from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id
+from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_servicios, agregar_producto_o_servicio
 
 # --- Configuración Inicial ---
 app = Flask(__name__, template_folder='client/templates')
@@ -34,6 +34,36 @@ def about():
 def contact():
     # Estas vistas usan el navbar público si la sesión está cerrada
     return render_template('contact.html')
+
+
+# --- Rutas sesion iniciada --- 
+
+@app.route("/Producto")
+def productos():
+    productos = [
+        {
+            "titulo": "Laptop",
+            "precio": "$4,000 Mx",
+            "descripcion": "Excelente estado, Intel i5, 8GB RAM, SSD 250GB"
+        },
+        {
+            "titulo": "Pines",
+            "precio": "$60 Mx",
+            "descripcion": "Pines de resina personalizados, varios colores disponibles"
+        }
+    ]
+    print(">>> Productos cargados:", productos)  # Prueba de depuración
+    return render_template("auth/Producto.html", productos=productos)
+
+@app.route('/Servicio')
+def Servicio():
+    # Esta vistas usan el navbar si la sesión está iniciada
+    return render_template('auth/Servicio.html')
+
+@app.route('/Comida')
+def Comida():
+    # Esta vistas usan el navbar si la sesión está iniciada
+    return render_template('auth/Comida.html')
 
 # --- Rutas de Autenticación (Login/Signup) ---
 
@@ -136,7 +166,27 @@ def settings():
     # RENDERIZA LA NUEVA PLANTILLA DENTRO DE AUTH/
     return render_template('auth/settings.html', user=user_data)
 
+#AGREGAR PRODUCTO A UNA BASE DE DATOS
+@app.route('/nuevoProducto', methods=['GET', 'POST'])
+def crearProducto():
+    if request.method == 'POST':
+        tipo = request.form['tipo']
+        Titulo = request.form['Titulo']
+        Descripcion = request.form['Descripcion']
+        user_id = session.get('user_id')
+
+        id_gen = agregar_producto_o_servicio(user_id,tipo,Titulo,Descripcion)
+
+        #SI se agrego, regresa a la pagina de home
+        if id_gen:
+            return redirect(url_for('home'))
+        else: #En caso de que NO, vuelve a cargar la pagina de inicio
+            return render_template('auth/nuevoProducto.html', error="No se pudo agregar producto")
+
+    return render_template('auth/nuevoProducto.html')
+
 
 # --- Inicio del Servidor ---
 if __name__ == '__main__':
     app.run(debug=True)
+
