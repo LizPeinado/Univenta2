@@ -41,6 +41,9 @@
                     <li class="nav-item"><a class="nav-link fw-semibold {% if request.path == '/about' %}active{% endif %}" href="/about">Nosotros</a></li>
  
                     {% if 'user_id' in session %}
+                        <li class="nav-item"><a class="nav-link fw-semibold {% if request.path == '/Producto' %}active{% endif %}" href="/Producto">Producto</a></li>
+                        <li class="nav-item"><a class="nav-link fw-semibold {% if request.path == '/Servicio' %}active{% endif %}" href="/Servicio">Servicio</a></li>
+                        <li class="nav-item"><a class="nav-link fw-semibold {% if request.path == '/Comida' %}active{% endif %}" href="/Comida">Comida</a></li>
                         <!-- Mostrar cuando el usuario ha iniciado sesión -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navbarDropdown" role="button"

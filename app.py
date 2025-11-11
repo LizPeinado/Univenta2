@@ -35,6 +35,37 @@ def contact():
     # Estas vistas usan el navbar público si la sesión está cerrada
     return render_template('contact.html')
 
+
+# --- Rutas sesion iniciada --- 
+
+@app.route("/Producto")
+def productos():
+    productos = [
+        {
+            "titulo": "Laptop",
+            "precio": "$4,000 Mx",
+            "descripcion": "Excelente estado, Intel i5, 8GB RAM, SSD 250GB"
+        },
+        {
+            "titulo": "Pines",
+            "precio": "$60 Mx",
+            "descripcion": "Pines de resina personalizados, varios colores disponibles"
+        }
+    ]
+    print(">>> Productos cargados:", productos)  # Prueba de depuración
+    return render_template("auth/Producto.html", productos=productos)
+
+@app.route('/Servicio')
+def Servicio():
+    # Esta vistas usan el navbar si la sesión está iniciada
+    return render_template('auth/Servicio.html')
+
+@app.route('/Comida')
+def Comida():
+    # Esta vistas usan el navbar si la sesión está iniciada
+    return render_template('auth/Comida.html')
+
+
 # --- Rutas de Autenticación (Login/Signup) ---
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -140,3 +171,5 @@ def settings():
 # --- Inicio del Servidor ---
 if __name__ == '__main__':
     app.run(debug=True)
+
+#--- Tarjetas ---
