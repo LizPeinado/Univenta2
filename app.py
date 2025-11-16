@@ -92,12 +92,12 @@ def perfil(id_usuario):
     }
 
     # Productos publicados por usuario (ejemplo)
-    productos_todos = mostrar_productos()
-    #productos_todos = [
-     #   {"usuario_id": 1, "titulo": "Laptop", "precio": "$4,000 Mx", "imagen": "img/laptop.jpg"},
-      #  {"usuario_id": 1, "titulo": "Ropa", "precio": "$100 - 200 Mx", "imagen": "img/ropa.jpg"},
-       # {"usuario_id": 2, "titulo": "Mouse Gamer", "precio": "$350 Mx", "imagen": "img/mouse.jpg"},
-    #]
+    #productos_todos = mostrar_productos()
+    productos_todos = [
+        {"usuario_id": 1, "titulo": "Laptop", "precio": "$4,000 Mx", "imagen": "img/laptop.jpg"},
+        {"usuario_id": 1, "titulo": "Ropa", "precio": "$100 - 200 Mx", "imagen": "img/ropa.jpg"},
+        {"usuario_id": 2, "titulo": "Mouse Gamer", "precio": "$350 Mx", "imagen": "img/mouse.jpg"},
+    ]
 
     # Validar usuario
     if id_usuario not in usuarios:
@@ -106,7 +106,7 @@ def perfil(id_usuario):
     perfil = usuarios[id_usuario]
 
     # Filtrar solo productos del usuario
-    productos_usuario = [p for p in productos_todos if p["IDusuario"] == id_usuario]
+    productos_usuario = [p for p in productos_todos if p["usuario_id"] == id_usuario]
 
     return render_template(
         'auth/perfil.html',
