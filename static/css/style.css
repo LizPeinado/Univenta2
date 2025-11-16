@@ -562,6 +562,10 @@ article.content-form {
   border-radius: 10px;
 }
 
+.imagen-tarjeta{
+  width: 100%
+}
+
 .descripcion {
   font-size: 0.9rem;
   color: #444;

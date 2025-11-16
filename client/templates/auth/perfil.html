@@ -36,12 +36,12 @@
     <h3 class="subtitulo">Disponible</h3>
 
     <div class="tarjetas-disponible">
-      {% for p in productos %}
+      {% for producto in producto %}
         {% include 'components/tarjeta_perfil_producto.html' %}
       {% endfor %}
 
       <!-- Tarjeta de publicar -->
-       <a href="/" class="mas">
+       <a href="/nuevoProducto" class="mas">
         <div class="nueva-publicacion">
           <span>+</span>
         </div>
