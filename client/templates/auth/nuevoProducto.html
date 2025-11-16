@@ -1,0 +1,110 @@
+{% extends "navbar.html" %}
+
+{% block title %}Crear Producto{% endblock %}
+
+{% block content %}
+<!-- Verifica si el objeto user fue pasado (siempre debería ser true aquí) -->
+
+<article class="content">
+{% if user %}
+<h1 style="color: #10B981;">¡Bienvenido(a), {{ user.fname }}!</h1>
+<p class="message">Has iniciado sesión exitosamente. Esta es tu página de inicio protegida.</p>
+{% else %}
+<h1>Bienvenido</h1>
+<p class="message" >Contenido principal de la aplicación.</p>
+{% endif %}
+
+<p>Utiliza el navbar superior para navegar a tu perfil o cerrar sesión.</p>
+
+    <main>
+        <form class="form" action="/nuevoProducto" method="POST" novalidate enctype="multipart/form-data">
+            <!-- TITULO DEL PRODUCTO-->
+            <div class="form-group">
+                <label for="Titulo">Titulo:</label><br>
+                <input
+                    type="text"
+                    id="Titulo"
+                    name="Titulo"
+                    placeholder="Escribe un titulo..."
+                    required
+                    autofocus
+                    aria-label="Titulo"
+                >
+            </div>
+
+            <!-- CATEGORIA DEL PRODUCTO-->
+            <div class="form-group tipo_producto">
+                <p>Selecciona la categoría</p>
+                <input 
+                    type="radio"
+                    id="tipoP"
+                    name="tipo"
+                    value="Producto"
+                    checked
+                    required
+                >
+                <label for="tipoP">Producto</label>
+
+                <input 
+                    type="radio"
+                    id="tipoS"
+                    name="tipo"
+                    value="Servicio"
+                    required
+                >
+                <label for="tipoS">Servicio</label>
+
+                <input 
+                    type="radio"
+                    id="tipoC"
+                    name="tipo"
+                    value="Comida"
+                    required
+                >
+                <label for="tipoC">Comida</label>
+            </div>
+
+            <!-- SUBIR IMAGEN-->
+
+            <div class="form-group">
+                <label for="SubirImagen">Agrega una imagen:</label>
+                <input type="file" name="Imagen" id="SubirImagen" required>
+            </div>
+
+            <!-- PRECIO DEL PRODUCTO-->
+            <div class="form-group">
+                <label for="Precio">Descripcion</label>
+                <input 
+                    type="text"
+                    id="Precio"
+                    name="Precio"
+                    placeholder="$0"
+                    required
+                    autofocus
+                    aria-label="Precio"
+                >
+            </div>
+
+            <!--DESCRIPCION-->
+            <div class="form-group">
+                <label for="Descripcion">Descripcion</label>
+                <input 
+                    type="text"
+                    id="Descripcion"
+                    name="Descripcion"
+                    placeholder="Describe esta publicacion..."
+                    required
+                    autofocus
+                    aria-label="Descripcion"
+                >
+            </div>
+
+
+            <div class="form-actions">
+                    <input class="submit" type="submit" value="Publicar">
+            </div>
+
+        </form>
+    </main>
+</article>
+{% endblock %}
