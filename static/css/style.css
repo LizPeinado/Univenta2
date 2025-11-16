@@ -1,3 +1,10 @@
+/*
+AMARILLO: #FFE653
+AZUL: #1b2c51
+ROSA-ROJO: #BA0953
+VERDE: #00B791
+*/
+
 body {
     font-family: sans-serif;
     background-color: #1b2c51;
@@ -24,7 +31,7 @@ article.content{
 .content h1 {
     font-size: 2em;
     margin-bottom: 20px;
-    color: #01B690;
+    color: #00B791;
 }
  
 .content .message {
@@ -50,7 +57,7 @@ article.content{
     margin: 10px;
     font-size: 12px;
     padding: 10px 20px;
-    background: #FEE652;
+    background: #FFE653;
     font-weight: bold;
     text-decoration: none;
     border: none;
@@ -66,13 +73,13 @@ article.content{
 .content a.signup:hover,
 .content a.login:hover,
 .content-form .submit:hover {
-    background: linear-gradient(45deg, #FFD500, #E6B800);
+    background: linear-gradient(45deg, #FFE653, #E6B800);
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
     cursor: pointer;
 }
- 
+
 /* ======== Formularios ======== */
  
 .content-form h1 {
@@ -132,7 +139,7 @@ article.content-form {
 }
  
 .form-links a {
-    color: #13264D;
+    color: #1b2c51;
     text-decoration: none;
     font-size: 10px;
 }
@@ -148,7 +155,7 @@ article.content-form {
 }
  
 .navbar-nav .nav-link {
-    color: #13264D;
+    color: #1b2c51;
     font-weight: 600;
     margin: 0 12px;
     transition: color 0.3s ease;
@@ -156,7 +163,7 @@ article.content-form {
  
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-    color: #00163a;
+    color: #1b2c51;
 }
  
 /* ======== Responsividad ======== */
@@ -182,6 +189,145 @@ article.content-form {
         width: 100%;
     }
 }
+
+/*PERFIL-----------------------------------------------------------------------------------------------------*/
+.perfil-container {
+  width: 90%;
+  margin: auto;
+  margin-top: 2rem;
+  font-family: 'Lato', sans-serif;
+}
+
+.perfil-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  color: white;
+  padding: 2rem;
+  position: relative;
+}
+
+.foto-bloque {
+  text-align: center;
+}
+
+.foto-bloque img {
+  width: 25rem;
+  height: 25rem;
+  margin-right: 3rem;
+  margin-bottom: 1rem;
+  background-color: #ffffff;
+  border-radius: 100%;
+  border: .5rem solid #00B791;
+  object-fit: cover;
+}
+
+.foto-bloque p{
+  font-size: 1.5em;
+  margin-left: -2rem;
+}
+
+.perfil-detalles p{
+  color: #ffff;
+}
+
+.perfil-detalles h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00B791;
+}
+
+.estrellas {
+  margin: 1rem 0;
+  font-size: 1.6rem;
+}
+
+.comentarios-perfil{
+  background-color: #ffffff;
+  height: 5rem;
+  padding: .5rem;
+  border-radius: .5rem;
+}
+
+.comentarios-perfil input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.productos-publicados {
+  font-family: 'Lato', sans-serif;
+  width: 100%;
+  gap: 1rem;
+  margin-top: 1rem;
+  background-color: #ffffff;
+  padding: 1.5rem;
+}
+
+.subtitulo {
+  margin-top: 4rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 0px;
+}
+
+.tarjetas-disponible{
+  display: flex;
+}
+
+.el-producto{
+  text-decoration: none;
+}
+.card-producto-perfil {
+  width: 160px;
+  margin-right: 1rem;
+  background: rgb(255, 255, 255);
+  border-radius: 12px;
+  padding: 0.5rem;
+  text-align: left;
+  font-family: 'lato', sans-serif;
+}
+
+.p-titulo{
+  color: #1b2c51;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.card-producto-perfil img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.nueva-publicacion {
+  width: 160px;
+  height: 160px;
+  border: 3px dashed #aaa;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #be185d;
+  text-decoration: none;
+}
+.mas{
+  text-decoration: none;
+}
+.btn-chat {
+  position: absolute;
+  right: 2rem;
+  margin-top: -2em;
+  background: #FFE653;
+  border-radius: 50%;
+  padding: 18px;
+}
+.btn-chat img {
+  width: 40px;
+}
+
 /*HOME-----------------------------------------------------------------------------------------------------------------*/ 
 .home-container {
   background-color: #1b2c51;
@@ -191,7 +337,7 @@ article.content-form {
 .category {
   background-color: #ffffff;
   border-radius: 1rem;
-  border: .5em solid #01B690;
+  border: .5em solid #00B791;
   padding: 1rem;
   margin-bottom: 2rem;
   color: white;
@@ -206,7 +352,7 @@ article.content-form {
 }
 
 .card {
-    font-family: 'Lato', sans-serif;
+  font-family: 'Lato', sans-serif;
   position: relative;
   border-radius: 0.8rem;
   overflow: hidden;
@@ -268,7 +414,7 @@ article.content-form {
 }
 
 .footer {
-  background-color: #0f172a;
+  background-color: #1b2c51;
   color: white;
   padding: 2rem 1rem;
   text-align: center;
@@ -339,7 +485,7 @@ article.content-form {
   border-radius: 20px;
   overflow: hidden;
   background: #fff;
-  border: .5em solid #01B690;
+  border: .5em solid #00B791;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
@@ -372,11 +518,10 @@ article.content-form {
 
 .icono-grupo {
   display: flex;
-  width: 50px;
-  height: 30px;
-  background-color: yellow;
+  width: 60px;
+  background-color: #FFE653;
   border-radius: 60%;
-  padding: 5px;
+  padding: 10px;
   justify-content: center;
 }
 .icono-grupo img {
@@ -384,16 +529,25 @@ article.content-form {
   width: 80%;
 }
 
+.producto-info{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
 .titulo {
+  position: absolute;
+  left: 2rem;
   font-size: 1.3rem;
   font-weight: bold;
   margin: 0.5rem 0;
 }
 
 .precio {
-  color: #10B981;
+  color: #00B791;
   font-weight: bold;
   font-size: 1.1rem;
+  margin-top: .5rem;
 }
 
 .imagen-placeholder {
@@ -476,7 +630,7 @@ article.content-form {
 }
 
 .popup-input button {
-  background: #10B981;
+  background: #00B791;
   color: white;
   border: none;
   border-radius: 50%;
@@ -488,7 +642,7 @@ article.content-form {
 
 .productos-container {
   padding: 40px;
-  background-color: #1a2745;
+  background-color: #1b2c51;
   text-align:left;
 }
 
@@ -501,7 +655,7 @@ article.content-form {
 }
 
 .producto-card {
-  background-color: #0f1625;
+  background-color: #1b2c51;
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   width: 280px;
@@ -517,7 +671,7 @@ article.content-form {
 .imagen-placeholder {
   width: 100%;
   height: 180px;
-  background-color: #2b385b;
+  background-color: #1b2c51;
   display: flex;
   align-items: center;
   justify-content: center;

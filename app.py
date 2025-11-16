@@ -65,6 +65,49 @@ def Comida():
     # Esta vistas usan el navbar si la sesión está iniciada
     return render_template('auth/Comida.html')
 
+@app.route("/perfil/<int:id_usuario>")
+def perfil(id_usuario):
+
+    # Ejemplo de usuarios (luego conectar con BD)
+    usuarios = {
+        1: {
+            "nombre": "Ruby Mendez",
+            "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod...",
+            "foto": "img/perfiles/user1.jpg",
+            "registro": "Octubre 2025",
+            "rating": 5
+        },
+        2: {
+            "nombre": "Carlos López",
+            "descripcion": "Vendedor de tecnología y accesorios...",
+            "foto": "img/perfiles/user2.jpg",
+            "registro": "Junio 2024",
+            "rating": 4
+        }
+    }
+
+    # Productos publicados por usuario (ejemplo)
+    productos_todos = [
+        {"usuario_id": 1, "titulo": "Laptop", "precio": "$4,000 Mx", "imagen": "img/laptop.jpg"},
+        {"usuario_id": 1, "titulo": "Ropa", "precio": "$100 - 200 Mx", "imagen": "img/ropa.jpg"},
+        {"usuario_id": 2, "titulo": "Mouse Gamer", "precio": "$350 Mx", "imagen": "img/mouse.jpg"},
+    ]
+
+    # Validar usuario
+    if id_usuario not in usuarios:
+        return "Usuario no encontrado", 404
+
+    perfil = usuarios[id_usuario]
+
+    # Filtrar solo productos del usuario
+    productos_usuario = [p for p in productos_todos if p["usuario_id"] == id_usuario]
+
+    return render_template(
+        'auth/perfil.html',
+        usuario=perfil,
+        productos=productos_usuario,
+        id_usuario=id_usuario
+    )
 
 # --- Rutas de Autenticación (Login/Signup) ---
 
@@ -172,4 +215,4 @@ def settings():
 if __name__ == '__main__':
     app.run(debug=True)
 
-#--- Tarjetas ---
+

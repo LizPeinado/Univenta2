@@ -7,16 +7,19 @@
           <div class="vendedor-img-placeholder"></div>
           <span class="nombre">{{ producto.vendedor_nombre }}</span>
         </div>
-
-        <div class="icono-grupo">
-          <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Chat general">
+        
+        <a href="/">
+          <div class="icono-grupo">
+          <img src="/static/img/Untitled-1-01.png" alt="Chat general">
         </div>
-
+        </a>
       </div>
 
-      <h2 class="titulo">{{ producto.titulo }}</h2>
-      <span class="precio">{{ producto.precio }}</span>
-
+      <div class="producto-info">
+        <h2 class="titulo">{{ producto.titulo }}</h2>
+        <span class="precio">{{ producto.precio }}</span>
+      </div>
+      
       <!-- Espacio para imagen -->
       <div class="imagen-placeholder">
         <span>Imagen no disponible</span>
@@ -25,7 +28,7 @@
       <p class="descripcion">{{ producto.descripcion }}</p>
 
       <button class="comentarios-btn" onclick="mostrarComentarios(this)">
-        <img src="{{ url_for('static', filename='img') }}" alt="Comentarios">
+        <i class="bi bi-chat-left-fill" style="color: #be185d;"></i>
       </button>
     </div>
 
