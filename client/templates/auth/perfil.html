@@ -1,0 +1,56 @@
+{% extends "navbar.html" %}
+
+{% block title %}perfil{% endblock %}
+
+{% block content %}
+  <main class="perfil-container">
+    <section class="perfil-info">
+
+      <div class="foto-bloque">
+          <!--<img src="{{ url_for('static', filename=usuario.foto) }}" alt="Foto">-->
+          <img src="/static/img/perfil-prueba.jpg" alt="Foto">
+          <p class="fecha">Vendedor desde {{ usuario.registro }}</p>
+      </div>
+
+      <div class="perfil-detalles">
+          <h2>{{ usuario.nombre }}</h2>
+
+          <p class="descripcion">{{ usuario.descripcion }}</p>
+
+          <div class="estrellas">
+              {% for i in range(usuario.rating) %}
+                  <i class="bi bi-star-fill" style="color: #ffea00;"></i>
+              {% endfor %}
+          </div>
+          <label>Comentarios</label>
+          <div class="comentarios-perfil">
+            <input type="text" placeholder="Escribe un comentario...">
+          </div>
+          
+
+      </div>
+    </section>
+  </main>
+  <section class="productos-publicados">
+    <!-- Productos publicados por el usuario -->
+    <h3 class="subtitulo">Disponible</h3>
+
+    <div class="tarjetas-disponible">
+      {% for producto in producto %}
+        {% include 'components/tarjeta_perfil_producto.html' %}
+      {% endfor %}
+
+      <!-- Tarjeta de publicar -->
+       <a href="/nuevoProducto" class="mas">
+        <div class="nueva-publicacion">
+          <span>+</span>
+        </div>
+       </a>
+      
+      <!-- Botón amarillo para chat -->
+      <a href="/" class="btn-chat">
+          <img src="/static/img/Untitled-1-01.png" alt="">
+      </a>
+    </div>
+  </section>
+{% endblock %}

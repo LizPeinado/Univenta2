@@ -5,27 +5,31 @@
       <div class="producto-header">
         <div class="vendedor-info">
           <div class="vendedor-img-placeholder"></div>
-          <span class="nombre">{{ producto.vendedor_nombre }}</span>
+          <span class="nombre">{{ p.NombreUsuario }}</span>
         </div>
-
-        <div class="icono-grupo">
-          <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Chat general">
+        
+        <a href="/">
+          <div class="icono-grupo">
+          <img src="/static/img/Untitled-1-01.png" alt="Chat general">
         </div>
-
+        </a>
       </div>
 
-      <h2 class="titulo">{{ producto.titulo }}</h2>
-      <span class="precio">{{ producto.precio }}</span>
-
+      <div class="producto-info">
+        <h2 class="titulo">{{ p.Titulo }}</h2>
+        <span class="precio">${{ p.Precio }}</span>
+      </div>
+      
       <!-- Espacio para imagen -->
       <div class="imagen-placeholder">
-        <span>Imagen no disponible</span>
+        <img class ="imagen-tarjeta" src="{{ p.ImagenURL }}" alt="Imagen Producto">
+        <!--span>Imagen no disponible</span-->
       </div>
 
-      <p class="descripcion">{{ producto.descripcion }}</p>
+      <p class="descripcion">{{ p.Descripcion }}</p>
 
       <button class="comentarios-btn" onclick="mostrarComentarios(this)">
-        <img src="{{ url_for('static', filename='img') }}" alt="Comentarios">
+        <i class="bi bi-chat-left-fill" style="color: #be185d;"></i>
       </button>
     </div>
 
@@ -37,7 +41,7 @@
       </div>
 
       <div class="popup-body">
-        {% for comentario in producto.comentarios %}
+        {% for comentario in p.comentarios %}
         <p><strong>{{ comentario.autor }}:</strong> {{ comentario.texto }}</p>
         {% endfor %}
       </div>

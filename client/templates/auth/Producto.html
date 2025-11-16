@@ -4,10 +4,8 @@
 
 {% block content %}
 <main class="productos-container">
-  <h2>Productos</h2>
-
   <div class="tarjetas-bloque">
-    {% for producto in productos %}
+    {% for p in producto %}
       {% include 'components/tarjeta.html' %}
     {% endfor %}
   </div>

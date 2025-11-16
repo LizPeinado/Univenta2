@@ -9,6 +9,7 @@
 
      <!-- bootstrap y css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 
@@ -48,10 +49,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navbarDropdown" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
-                                👤 {{ session['user_name'] }}
+                                <i class="bi bi-person-lines-fill"></i> {{ session['user_name'] }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
+                                <li><a class="dropdown-item  {% if request.path == '/perfil' %}active{% endif %}" href="/perfil/1">Mi perfil</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item text-danger" href="/logout">Cerrar sesión</a></li>
                             </ul>
