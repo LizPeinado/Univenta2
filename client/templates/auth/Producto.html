@@ -1,0 +1,36 @@
+{% extends "navbar.html" %}
+
+{% block title %}Productos{% endblock %}
+
+{% block content %}
+<main class="productos-container">
+  <h2>Productos</h2>
+
+  <div class="tarjetas-bloque">
+    {% for producto in productos %}
+      {% include 'components/tarjeta.html' %}
+    {% endfor %}
+  </div>
+</main>
+
+<footer class="footer">
+  <h2>Contáctanos</h2>
+  <div class="columns">
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+  </div>
+</footer>
+
+<script>
+function mostrarComentarios(btn) {
+  const card = btn.closest('.producto-card');
+  card.classList.add('mostrando-comentarios');
+}
+
+function cerrarComentarios(btn) {
+  const card = btn.closest('.producto-card');
+  card.classList.remove('mostrando-comentarios');
+}
+</script>
+{% endblock %}

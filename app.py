@@ -1,15 +1,26 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_bcrypt import Bcrypt
-from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_servicios, agregar_producto_o_servicio
+from datetime import datetime as dt
+from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio
+
+# AQUI SE SUBIRAN LAS IMAGENES
+UPLOAD_FOLDER = 'static/uploads/'
+
+# EXTENSIONES PERMITIDAS
+EXTENSIONES_PERMITIDAS = ['png', 'jpg', 'jpeg', 'gif']
 
 # --- Configuración Inicial ---
-app = Flask(__name__, template_folder='client/templates')
+app = Flask(__name__, template_folder='client/templates', static_folder = "static")
 # CLAVE SECRETA: NECESARIA PARA CIFRAR LAS COOKIES DE SESIÓN
 app.secret_key = os.environ.get('SECRET_KEY', 'una_clave_de_desarrollo_insegura') 
 bcrypt = Bcrypt(app)
+
+# MAS CONFIGURACIONES
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 # Ejecutamos la creación de la tabla al inicio (si no existe)
-crear_tabla_usuarios() 
+crear_tabla_usuarios()
 
 # --- Decorador de Autenticación (Middleware) ---
 def login_required(f):
@@ -64,6 +75,62 @@ def Servicio():
 def Comida():
     # Esta vistas usan el navbar si la sesión está iniciada
     return render_template('auth/Comida.html')
+
+
+#FORMATOS PERMITIDOS PARA SUBIR IMAGENES
+formatos_validos = {'jpg', 'jpeg', 'png', 'gif'}
+
+def formatos_validos_imagen(archivo):
+    return '.' in archivo and archivo.rsplit('.', 1)[1].lower() in formatos_validos
+
+
+
+#AGREGAR PRODUCTO A UNA BASE DE DATOS
+@app.route('/nuevoProducto', methods=['GET', 'POST'])
+
+
+def crearProducto():
+    if request.method == 'POST':
+
+        if 'Imagen' not in request.files: # ASEGURAR QUE SE SUBA UNA IMAGEN
+            flash('Falta subir la imagen')
+            return redirect(request.url)
+
+        image = request.files['Imagen'] # TRAER LA IMAGEN
+
+        if image.filename == '':
+            flash('Ninguna imagen seleccionada')
+            return redirect(request.url)
+
+        # Verificar si la extension es permitida
+        if image and image.filename.rsplit('.', 1)[1].lower() in EXTENSIONES_PERMITIDAS:
+
+            dt_now = dt.now().strftime("%Y%m%d%H%M%S%f") # Para nombrar el archivo
+            nombre_imagen = dt_now + '.jpg'
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_imagen)) 
+
+            img_dir = './static/uploads/'
+            path_img = img_dir + nombre_imagen # DIRECTORIO de la imagen
+
+
+        tipo = request.form['tipo']
+        Titulo = request.form['Titulo']
+        Imagen = path_img
+        Precio = request.form['Precio']
+        Descripcion = request.form['Descripcion']
+        user_id = session.get('user_id')
+
+        print()
+        id_gen = agregar_producto_o_servicio(user_id, tipo, Titulo, Imagen, Precio, Descripcion)
+
+        #SI se agrego, regresa a la pagina de home
+        if id_gen:
+            return redirect(url_for('home'))
+        else: #En caso de que NO, vuelve a cargar la pagina de inicio
+            return render_template('auth/nuevoProducto.html', error="No se pudo agregar producto")
+
+    return render_template('auth/nuevoProducto.html')
+
 
 # --- Rutas de Autenticación (Login/Signup) ---
 
@@ -165,25 +232,6 @@ def settings():
     
     # RENDERIZA LA NUEVA PLANTILLA DENTRO DE AUTH/
     return render_template('auth/settings.html', user=user_data)
-
-#AGREGAR PRODUCTO A UNA BASE DE DATOS
-@app.route('/nuevoProducto', methods=['GET', 'POST'])
-def crearProducto():
-    if request.method == 'POST':
-        tipo = request.form['tipo']
-        Titulo = request.form['Titulo']
-        Descripcion = request.form['Descripcion']
-        user_id = session.get('user_id')
-
-        id_gen = agregar_producto_o_servicio(user_id,tipo,Titulo,Descripcion)
-
-        #SI se agrego, regresa a la pagina de home
-        if id_gen:
-            return redirect(url_for('home'))
-        else: #En caso de que NO, vuelve a cargar la pagina de inicio
-            return render_template('auth/nuevoProducto.html', error="No se pudo agregar producto")
-
-    return render_template('auth/nuevoProducto.html')
 
 
 # --- Inicio del Servidor ---

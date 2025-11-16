@@ -1,0 +1,20 @@
+<div class="card-back">
+  <div class="popup-header">
+    <div class="vendedor-info">
+      <img src="{{ url_for('static', filename=producto.vendedor_img) }}" alt="Usuario">
+      <span class="nombre">{{ producto.vendedor_nombre }}</span>
+    </div>
+    <button class="cerrar-popup" onclick="cerrarComentarios(this)">✕</button>
+  </div>
+
+  <div class="popup-body">
+    {% for c in producto.comentarios %}
+      <p><strong>{{ c.autor }}:</strong> {{ c.texto }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="popup-input">
+    <input type="text" placeholder="Escribe un comentario...">
+    <button class="enviar-btn">➤</button>
+  </div>
+</div>
