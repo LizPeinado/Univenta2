@@ -5,16 +5,14 @@
 {% block content %}
 <!-- Verifica si el objeto user fue pasado (siempre debería ser true aquí) -->
 
-<article class="content">
+<article class="content crear-producto">
 {% if user %}
-<h1 style="color: #10B981;">¡Bienvenido(a), {{ user.fname }}!</h1>
-<p class="message">Has iniciado sesión exitosamente. Esta es tu página de inicio protegida.</p>
+<h1 style="color: #10B981;">Nuevo Producto</h1>
+<p class="message">Publica un nuevo producto.</p>
 {% else %}
-<h1>Bienvenido</h1>
-<p class="message" >Contenido principal de la aplicación.</p>
+<h1>Nuevo producto</h1>
+<p class="message" >¡Publica un nuevo producto! Llena todos los siguientes campos para continuar.</p>
 {% endif %}
-
-<p>Utiliza el navbar superior para navegar a tu perfil o cerrar sesión.</p>
 
     <main>
         <form class="form" action="/nuevoProducto" method="POST" novalidate enctype="multipart/form-data">
@@ -30,9 +28,10 @@
                     autofocus
                     aria-label="Titulo"
                 >
-            </div>
+            </div><br>
 
             <!-- CATEGORIA DEL PRODUCTO-->
+            <p>¿Que categoría es tu producto?</p>
             <div class="form-group tipo_producto">
                 <p>Selecciona la categoría</p>
                 <input 
@@ -65,15 +64,16 @@
             </div>
 
             <!-- SUBIR IMAGEN-->
-
+            <p>Sube una imagen, asegurate que el formato sea .png, .jpg o .jpeg</p>
             <div class="form-group">
                 <label for="SubirImagen">Agrega una imagen:</label>
                 <input type="file" name="Imagen" id="SubirImagen" required>
             </div>
 
             <!-- PRECIO DEL PRODUCTO-->
+            <p>¿Cuánto cuesta tu producto? Ingresa solo el número</p>
             <div class="form-group">
-                <label for="Precio">Descripcion</label>
+                <label for="Precio">Precio</label>
                 <input 
                     type="text"
                     id="Precio"
@@ -87,7 +87,7 @@
 
             <!--DESCRIPCION-->
             <div class="form-group">
-                <label for="Descripcion">Descripcion</label>
+                <label for="Descripcion">Descripcion</label><br>
                 <input 
                     type="text"
                     id="Descripcion"

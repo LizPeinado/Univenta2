@@ -75,7 +75,6 @@ def obtener_usuario_por_id(user_id):
         print("Error al obtener usuario por ID:", err)
         return None
 
-
 #PRODUCTOS
 def crear_tabla_productos():
     try:
@@ -84,12 +83,13 @@ def crear_tabla_productos():
 
         crear_tabla_productos = """
         CREATE TABLE IF NOT EXISTS producto(
-            IDproducto INT AUTO_INCREMENT PRIMARY KEY,
+            ID INT AUTO_INCREMENT PRIMARY KEY,
             IDusuario INT NOT NULL,
-            TituloProducto VARCHAR(50) NOT NULL,
-            ImagenURLProducto VARCHAR(50) NOT NULL,
-            PrecioProducto INT NOT NULL,
-            DescProducto VARCHAR(500) NOT NULL
+            NombreUsuario VARCHAR(50) NOT NULL,
+            Titulo VARCHAR(50) NOT NULL,
+            ImagenURL VARCHAR(50) NOT NULL,
+            Precio INT NOT NULL,
+            Descripcion VARCHAR(500) NOT NULL
         )
         """
 
@@ -111,12 +111,13 @@ def crear_tabla_comida():
 
         crear_tabla_comida = """
         CREATE TABLE IF NOT EXISTS comida(
-            IDcomida INT AUTO_INCREMENT PRIMARY KEY,
+            ID INT AUTO_INCREMENT PRIMARY KEY,
             IDusuario INT NOT NULL,
-            TituloComida VARCHAR(50) NOT NULL,
-            ImagenURLComida VARCHAR(50) NOT NULL,
-            PrecioComida INT NOT NULL,
-            DescComida VARCHAR(500) NOT NULL
+            NombreUsuario VARCHAR(50) NOT NULL,
+            Titulo VARCHAR(50) NOT NULL,
+            ImagenURL VARCHAR(50) NOT NULL,
+            Precio INT NOT NULL,
+            Descripcion VARCHAR(500) NOT NULL
         )
         """
 
@@ -138,12 +139,13 @@ def crear_tabla_servicios():
 
         crear_tabla_servicios = """
         CREATE TABLE IF NOT EXISTS servicio(
-            IDservicio INT AUTO_INCREMENT PRIMARY KEY,
+            ID INT AUTO_INCREMENT PRIMARY KEY,
             IDusuario INT NOT NULL,
-            TituloServicio VARCHAR(50) NOT NULL,
-            ImagenURLServicio VARCHAR(50) NOT NULL,
-            PrecioServicio INT NOT NULL,
-            DescServicio VARCHAR(500) NOT NULL
+            NombreUsuario VARCHAR(50) NOT NULL,
+            Titulo VARCHAR(50) NOT NULL,
+            ImagenURL VARCHAR(50) NOT NULL,
+            Precio INT NOT NULL,
+            Descripcion VARCHAR(500) NOT NULL
         )
         """
 
@@ -158,15 +160,15 @@ def crear_tabla_servicios():
         return None
         
 #AGREGA LOS PRODUCTOS A SUS RESPECTIVAS TABLAS SEGUN EL TIPO
-def agregar_producto_o_servicio(user_id, tipo, Titulo, Imagen, Precio, Descripcion):
+def agregar_producto_o_servicio(user_id, nombre, tipo, Titulo, Imagen, Precio, Descripcion):
     try:
         print("Estoy dentro")
         cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
         if tipo == 'Producto':
             print("Es un producto")
-            insertar_producto = "INSERT INTO producto (IDusuario, TituloProducto, ImagenURLProducto, PrecioProducto, DescProducto) VALUES ( %s, %s, %s, %s, %s)"
-            cursor.execute(insertar_producto, (user_id, Titulo, Imagen, Precio, Descripcion))
+            insertar_producto = "INSERT INTO producto (IDusuario, NombreUsuario, Titulo, ImagenURL, Precio, Descripcion) VALUES ( %s, %s, %s, %s, %s, %s)"
+            cursor.execute(insertar_producto, (user_id, nombre, Titulo, Imagen, Precio, Descripcion))
             print("Si se guardoooo")
             cnx.commit()
             id_gen = cursor.lastrowid
@@ -175,8 +177,8 @@ def agregar_producto_o_servicio(user_id, tipo, Titulo, Imagen, Precio, Descripci
 
         if tipo == 'Servicio':
             print("Es un servicio")
-            insertar_servicio = "INSERT INTO servicio (IDusuario, TituloServicio, ImagenURLServicio, PrecioServicio, DescServicio) VALUES ( %s, %s, %s, %s, %s)"
-            cursor.execute(insertar_servicio, (user_id, Titulo, Imagen, Precio, Descripcion))
+            insertar_servicio = "INSERT INTO servicio (IDusuario, NombreUsuario, Titulo, ImagenURL, Precio, Descripcion) VALUES ( %s, %s, %s, %s, %s, %s)"
+            cursor.execute(insertar_servicio, (user_id, nombre, Titulo, Imagen, Precio, Descripcion))
             print("Si se guardoooo ")
             cnx.commit()
             id_gen = cursor.lastrowid
@@ -185,8 +187,8 @@ def agregar_producto_o_servicio(user_id, tipo, Titulo, Imagen, Precio, Descripci
 
         if tipo == 'Comida':
             print("Es comida")
-            insertar_comida = "INSERT INTO comida (IDusuario, TituloComida, ImagenURLComida, PrecioComida, DescComida) VALUES ( %s, %s, %s, %s, %s)"
-            cursor.execute(insertar_comida, (user_id, Titulo, Imagen, Precio, Descripcion))
+            insertar_comida = "INSERT INTO comida (IDusuario, NombreUsuario, Titulo, ImagenURL, Precio, Descripcion) VALUES ( %s, %s, %s, %s, %s, %s)"
+            cursor.execute(insertar_comida, (user_id, nombre, Titulo, Imagen, Precio, Descripcion))
             print("Si se guardoooo ")
             cnx.commit()
             id_gen = cursor.lastrowid
@@ -197,3 +199,54 @@ def agregar_producto_o_servicio(user_id, tipo, Titulo, Imagen, Precio, Descripci
     except mysql.connector.Error as err:
         print("Error al agregar producto: ",err)
         return None
+
+
+# MOSTRAR TODOS LOS PRODUCTOS
+def mostrar_productos():
+    try:
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM producto")
+        print("Aqui deberia seleccionar todo")
+        prdts = cursor.fetchall()
+        print("Pasando datos a una variable")
+        cursor.close()
+        cnx.close()
+
+        print("Si llega hasta aqui, en teoria si se mando")
+        return prdts
+
+    except:
+        print("ERROR para mandar productos")
+        return None
+
+# MOSTRAR TODOS LOS SERVICIOS
+def mostrar_servicios():
+    try:
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM servicio")
+        print("Aqui deberia seleccionar todo")
+        servicio = cursor.fetchall()
+        print("Pasando datos a una variable")
+        cursor.close()
+        cnx.close()
+
+        print("Si llega hasta aqui, en teoria si se mando")
+        return servicio
+
+    except:
+        print("ERROR para mandar servicios")
+        return None
+
+def mostrar_comida():
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM comida")
+    comidas = cursor.fetchall()
+
+    cursor.close()
+    cnx.close()
+
+    return comidas

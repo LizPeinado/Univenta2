@@ -1,7 +1,8 @@
 <a href="/" class="el-producto">
     <div class="card-producto-perfil">
-        <img src="{{ url_for('static', filename=p.imagen) }}" alt="">
-        <p class="p-titulo">{{ p.titulo }}</p>
-        <span class="p-precio">{{ p.precio }}</span>
+        <img src="{{ p.ImagenURL | replace('./', '/') }}" alt="Imagen del producto">
+
+        <p class="p-Titulo">{{ p.Titulo }}</p>
+        <span class="p-Precio">${{ p.Precio }}</span>
     </div>
 </a>

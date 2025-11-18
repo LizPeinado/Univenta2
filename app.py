@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_bcrypt import Bcrypt
 from datetime import datetime as dt
-from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio
+from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio, mostrar_productos, mostrar_servicios
 
 # AQUI SE SUBIRAN LAS IMAGENES
 UPLOAD_FOLDER = 'static/uploads/'
@@ -49,27 +49,21 @@ def contact():
 
 # --- Rutas sesion iniciada --- 
 
-@app.route("/Producto")
+@app.route("/Producto", methods=['GET','POST'])
 def productos():
-    productos = [
-        {
-            "titulo": "Laptop",
-            "precio": "$4,000 Mx",
-            "descripcion": "Excelente estado, Intel i5, 8GB RAM, SSD 250GB"
-        },
-        {
-            "titulo": "Pines",
-            "precio": "$60 Mx",
-            "descripcion": "Pines de resina personalizados, varios colores disponibles"
-        }
-    ]
-    print(">>> Productos cargados:", productos)  # Prueba de depuración
-    return render_template("auth/Producto.html", productos=productos)
 
-@app.route('/Servicio')
+    productos = mostrar_productos()
+
+    print(">>> Productos cargados:", productos)  # Prueba de depuración
+    return render_template("auth/Producto.html", producto=productos)
+
+@app.route('/Servicio', methods=['GET','POST'])
 def Servicio():
     # Esta vistas usan el navbar si la sesión está iniciada
-    return render_template('auth/Servicio.html')
+    servicios = mostrar_servicios()
+
+    print(">>> Servicios cargados:", servicios)  # Prueba de depuración
+    return render_template('auth/Servicio.html', servicio=servicios)
 
 @app.route('/Comida')
 def Comida():
@@ -82,7 +76,7 @@ def perfil(id_usuario):
     # Ejemplo de usuarios (luego conectar con BD)
     usuarios = {
         1: {
-            "nombre": "Ruby Mendez",
+            "nombre": "Mi Perfil",
             "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod...",
             "foto": "img/perfiles/user1.jpg",
             "registro": "Octubre 2025",
@@ -98,11 +92,8 @@ def perfil(id_usuario):
     }
 
     # Productos publicados por usuario (ejemplo)
-    productos_todos = [
-        {"usuario_id": 1, "titulo": "Laptop", "precio": "$4,000 Mx", "imagen": "img/laptop.jpg"},
-        {"usuario_id": 1, "titulo": "Ropa", "precio": "$100 - 200 Mx", "imagen": "img/ropa.jpg"},
-        {"usuario_id": 2, "titulo": "Mouse Gamer", "precio": "$350 Mx", "imagen": "img/mouse.jpg"},
-    ]
+    #productos_todos = mostrar_productos()
+    productos_todos = mostrar_productos()
 
     # Validar usuario
     if id_usuario not in usuarios:
@@ -110,13 +101,18 @@ def perfil(id_usuario):
 
     perfil = usuarios[id_usuario]
 
+    # aseguramos que rating exista
+    perfil.setdefault("rating", 0)
+
     # Filtrar solo productos del usuario
-    productos_usuario = [p for p in productos_todos if p["usuario_id"] == id_usuario]
+    productos_usuario = [p for p in productos_todos if p["IDusuario"] == id_usuario]
+
+    print("PRODUCTOS_USUARIO ENVIADOS A PERFIL:", productos_usuario)
 
     return render_template(
         'auth/perfil.html',
         usuario=perfil,
-        productos=productos_usuario,
+        producto=productos_usuario,
         id_usuario=id_usuario
     )
 
@@ -128,12 +124,21 @@ def formatos_validos_imagen(archivo):
 
 
 
-#AGREGAR PRODUCTO A UNA BASE DE DATOS
+# AGREGAR PRODUCTO A UNA BASE DE DATOS
 @app.route('/nuevoProducto', methods=['GET', 'POST'])
 
-
+# CREAR PRODUCTO EN EL PERFIL DEL USUARIO
 def crearProducto():
     if request.method == 'POST':
+
+        tipo = request.form['tipo']
+        Titulo = request.form['Titulo']
+        Precio = request.form['Precio']
+        Descripcion = request.form['Descripcion']
+        user_id = session.get('user_id') # Agarrando el ID del usuario con la sesion iniciada
+
+        user_data = obtener_usuario_por_id(user_id) #Sacando los datos de la sesion del usuario
+        nombre = user_data['fname']
 
         if 'Imagen' not in request.files: # ASEGURAR QUE SE SUBA UNA IMAGEN
             flash('Falta subir la imagen')
@@ -154,17 +159,15 @@ def crearProducto():
 
             img_dir = './static/uploads/'
             path_img = img_dir + nombre_imagen # DIRECTORIO de la imagen
+        
+        else:
+            # Manejar el error o redirigir
+            return "Error: Imagen inválida o no enviada", 400
 
-
-        tipo = request.form['tipo']
-        Titulo = request.form['Titulo']
         Imagen = path_img
-        Precio = request.form['Precio']
-        Descripcion = request.form['Descripcion']
-        user_id = session.get('user_id')
-
-        print()
-        id_gen = agregar_producto_o_servicio(user_id, tipo, Titulo, Imagen, Precio, Descripcion)
+    
+        print("Se recibieron los datos")
+        id_gen = agregar_producto_o_servicio(user_id, nombre, tipo, Titulo, Imagen, Precio, Descripcion)
 
         #SI se agrego, regresa a la pagina de home
         if id_gen:
@@ -253,18 +256,30 @@ def logout():
 
 @app.route('/')
 def home():
-    # 1. Verificar si la sesión está abierta
     if session.get('logged_in'):
-        # SESIÓN ABIERTA: Mostrar contenido privado (home.html)
         user_id = session.get('user_id')
         user_data = obtener_usuario_por_id(user_id)
-        
-        # Renderiza la vista de sesión
-        return render_template('auth/home.html', user=user_data)
-    else:
-        # SESIÓN CERRADA: Mostrar contenido público (index.html)
-        # Asumimos que index.html es la página pública de bienvenida
-        return render_template('index.html')
+
+        # Obtener datos usando las funciones del proyecto
+        productos = mostrar_productos()
+        servicios = mostrar_servicios()
+
+        # Si tienes función para comida, úsala. Si no, la creamos.
+        try:
+            from server.db import mostrar_comida
+            comidas = mostrar_comida()
+        except:
+            comidas = []
+
+        return render_template(
+            'auth/home.html',
+            user=user_data,
+            productos=productos,
+            servicios=servicios,
+            comidas=comidas
+        )
+
+    return render_template('index.html')
 
 
 @app.route('/settings')

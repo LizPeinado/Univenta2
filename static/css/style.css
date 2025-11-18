@@ -6,7 +6,7 @@ VERDE: #00B791
 */
 
 body {
-    font-family: sans-serif;
+    font-family: 'Lato', sans-serif;
     background-color: #1b2c51;
     margin: 0;
     padding: 0;
@@ -19,7 +19,7 @@ article.content{
     align-items: center;
     display: flex;
     flex-direction: column;
-    width: 750px;
+    width: 80%;
     margin: 40px auto 60px auto;
     background-color: white;
     border-radius: 10px;
@@ -281,24 +281,30 @@ article.content-form {
 .card-producto-perfil {
   width: 160px;
   margin-right: 1rem;
-  background: rgb(255, 255, 255);
+  background: rgba(77, 77, 77, 0.301);
   border-radius: 12px;
-  padding: 0.5rem;
   text-align: left;
   font-family: 'lato', sans-serif;
 }
 
-.p-titulo{
+.card-producto-perfil p{
   color: #1b2c51;
   font-weight: 700;
   font-size: 1.3rem;
+  margin: 0;
+}
+
+.card-producto-perfil span{
+  margin: 0;
+  color: #1b2c51;
+  font-size: 1.2rem;
 }
 
 .card-producto-perfil img {
   width: 100%;
   height: 100px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
 }
 
 .nueva-publicacion {
@@ -337,6 +343,7 @@ article.content-form {
 .category {
   background-color: #ffffff;
   border-radius: 1rem;
+  height: 350px;
   border: .5em solid #00B791;
   padding: 1rem;
   margin-bottom: 2rem;
@@ -434,7 +441,7 @@ article.content-form {
   margin: 0.5rem;
 }
 
-/*Tarjetas-Comentarios----------------------------------------------------------------------------------------------*/
+/*Tarjetas y Comentarios----------------------------------------------------------------------------------------------*/
 
 .productos-container {
   display: flex;
@@ -536,6 +543,7 @@ article.content-form {
 }
 
 .titulo {
+  z-index: 1000;
   position: absolute;
   left: 2rem;
   font-size: 1.3rem;
@@ -544,6 +552,7 @@ article.content-form {
 }
 
 .precio {
+  z-index: 1000;
   color: #00B791;
   font-weight: bold;
   font-size: 1.1rem;
@@ -562,9 +571,17 @@ article.content-form {
   border-radius: 10px;
 }
 
+.imagen-tarjeta{
+  width: 70%;
+  
+
+}
+
 .descripcion {
+  z-index: 1000;
   font-size: 0.9rem;
   color: #444;
+  background-color: #c4d3f580;
 }
 
 .comentarios-btn {
@@ -671,11 +688,10 @@ article.content-form {
 .imagen-placeholder {
   width: 100%;
   height: 180px;
-  background-color: #1b2c51;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ccc;
+  color:#be185d;
   font-size: 14px;
   font-style: italic;
 }
