@@ -120,7 +120,7 @@ def perfil(id_usuario):
 
 
 # Pagina de producto individual
-@app.route('/verProducto/<id_producto>', methods=['GET','POST'])
+@app.route('/verProducto/<int:id_producto>', methods=['GET','POST'])
 def verProducto(id_producto):
 
     productos = mostrar_productos()
@@ -283,21 +283,15 @@ def home():
         # Obtener datos usando las funciones del proyecto
         productos = mostrar_productos() or []
         servicios = mostrar_servicios() or []
+        comida = mostrar_comida() or []
 
-
-        # Si tienes función para comida, úsala. Si no, la creamos.
-        try:
-            from server.db import mostrar_comida
-            comidas = mostrar_comida()
-        except:
-            comidas = []
 
         return render_template(
             'auth/home.html',
             user=user_data,
             productos=productos,
             servicios=servicios,
-            comidas=comidas
+            comidas=comida
         )
 
     return render_template('index.html')
