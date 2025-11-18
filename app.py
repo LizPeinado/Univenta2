@@ -284,20 +284,12 @@ def home():
         productos = mostrar_productos() or []
         servicios = mostrar_servicios() or []
 
-
-        # Si tienes función para comida, úsala. Si no, la creamos.
-        try:
-            from server.db import mostrar_comida
-            comidas = mostrar_comida()
-        except:
-            comidas = []
-
         return render_template(
             'auth/home.html',
             user=user_data,
             productos=productos,
             servicios=servicios,
-            comidas=comidas
+            comidas=comida
         )
 
     return render_template('index.html')
