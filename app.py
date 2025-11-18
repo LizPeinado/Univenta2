@@ -84,7 +84,7 @@ def perfil(id_usuario):
     # Ejemplo de usuarios (luego conectar con BD)
     usuarios = {
         1: {
-            "nombre": "Ruby Mendez",
+            "nombre": "Mi Perfil",
             "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod...",
             "foto": "img/perfiles/user1.jpg",
             "registro": "Octubre 2025",
@@ -101,11 +101,7 @@ def perfil(id_usuario):
 
     # Productos publicados por usuario (ejemplo)
     #productos_todos = mostrar_productos()
-    productos_todos = [
-        {"usuario_id": 1, "titulo": "Laptop", "precio": "$4,000 Mx", "imagen": "img/laptop.jpg"},
-        {"usuario_id": 1, "titulo": "Ropa", "precio": "$100 - 200 Mx", "imagen": "img/ropa.jpg"},
-        {"usuario_id": 2, "titulo": "Mouse Gamer", "precio": "$350 Mx", "imagen": "img/mouse.jpg"},
-    ]
+    productos_todos = mostrar_productos()
 
     # Validar usuario
     if id_usuario not in usuarios:
@@ -113,8 +109,13 @@ def perfil(id_usuario):
 
     perfil = usuarios[id_usuario]
 
+    # aseguramos que rating exista
+    perfil.setdefault("rating", 0)
+
     # Filtrar solo productos del usuario
-    productos_usuario = [p for p in productos_todos if p["usuario_id"] == id_usuario]
+    productos_usuario = [p for p in productos_todos if p["IDusuario"] == id_usuario]
+
+    print("PRODUCTOS_USUARIO ENVIADOS A PERFIL:", productos_usuario)
 
     return render_template(
         'auth/perfil.html',
@@ -166,11 +167,13 @@ def crearProducto():
 
             img_dir = './static/uploads/'
             path_img = img_dir + nombre_imagen # DIRECTORIO de la imagen
+        
+        else:
+            # Manejar el error o redirigir
+            return "Error: Imagen inválida o no enviada", 400
 
         Imagen = path_img
-        
- 
-
+    
         print("Se recibieron los datos")
         id_gen = agregar_producto_o_servicio(user_id, nombre, tipo, Titulo, Imagen, Precio, Descripcion)
 
@@ -261,18 +264,30 @@ def logout():
 
 @app.route('/')
 def home():
-    # 1. Verificar si la sesión está abierta
     if session.get('logged_in'):
-        # SESIÓN ABIERTA: Mostrar contenido privado (home.html)
         user_id = session.get('user_id')
         user_data = obtener_usuario_por_id(user_id)
-        
-        # Renderiza la vista de sesión
-        return render_template('auth/home.html', user=user_data)
-    else:
-        # SESIÓN CERRADA: Mostrar contenido público (index.html)
-        # Asumimos que index.html es la página pública de bienvenida
-        return render_template('index.html')
+
+        # Obtener datos usando las funciones del proyecto
+        productos = mostrar_productos()
+        servicios = mostrar_servicios()
+
+        # Si tienes función para comida, úsala. Si no, la creamos.
+        try:
+            from server.db import mostrar_comida
+            comidas = mostrar_comida()
+        except:
+            comidas = []
+
+        return render_template(
+            'auth/home.html',
+            user=user_data,
+            productos=productos,
+            servicios=servicios,
+            comidas=comidas
+        )
+
+    return render_template('index.html')
 
 
 @app.route('/settings')

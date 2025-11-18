@@ -1,7 +1,8 @@
 <a href="/" class="el-producto">
     <div class="card-producto-perfil">
-        <img src="{{ p.ImagenURL }}" alt="">
+        <img src="{{ p.ImagenURL | replace('./', '/') }}" alt="Imagen del producto">
+
         <p class="p-Titulo">{{ p.Titulo }}</p>
-        <span class="p-Precio">{{ p.Precio }}</span>
+        <span class="p-Precio">${{ p.Precio }}</span>
     </div>
 </a>

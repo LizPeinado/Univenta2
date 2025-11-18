@@ -5,7 +5,7 @@ from mysql.connector import errorcode
 # Configuración de la conexión MySQL
 db_config = {
     'user': 'root',
-    'password': 'renzho02',
+    'password': 'MySQL1357',
     'host': 'localhost',
     'database': 'prueba'
 }
@@ -238,3 +238,15 @@ def mostrar_servicios():
     except:
         print("ERROR para mandar servicios")
         return None
+
+def mostrar_comida():
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM comida")
+    comidas = cursor.fetchall()
+
+    cursor.close()
+    cnx.close()
+
+    return comidas

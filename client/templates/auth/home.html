@@ -25,41 +25,19 @@
     <div id="carousel-producto" class="splide" aria-label="Carrusel de productos">
       <div class="splide__track">
         <ul class="splide__list">
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/laptop.jpg') }}" alt="Laptop">
-            <div class="info">
-              <h3>Laptop</h3>
-              <p>$4,500 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
+          <ul class="splide__list">
+            {% for p in productos %}
+            <li class="splide__slide card">
+              <img src="{{ p.ImagenURL }}" alt="{{ p.Titulo }}">
+              <div class="info">
+                <h3>{{ p.Titulo }}</h3>
+                <p>${{ p.Precio }} MXN</p>
+              </div>
+              <button class="play-btn">▶</button>
+            </li>
+            {% endfor %}
+          </ul>
 
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/pines.jpg') }}" alt="Pines">
-            <div class="info">
-              <h3>Pines</h3>
-              <p>$60 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
-
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/ropa.jpg') }}" alt="Ropa">
-            <div class="info">
-              <h3>Ropa</h3>
-              <p>$300 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
-
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/tableta.jpg') }}" alt="Tableta de dibujo">
-            <div class="info">
-              <h3>Tableta de dibujo</h3>
-              <p>$2,000 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
         </ul>
       </div>
     </div>
@@ -71,41 +49,16 @@
     <div id="carousel-servicio" class="splide" aria-label="Carrusel de servicios">
       <div class="splide__track">
         <ul class="splide__list">
+          {% for s in servicios %}
           <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/tutorias.jpg') }}" alt="Tutorías">
+            <img src="{{ s.ImagenURL }}" alt="{{ s.Titulo }}">
             <div class="info">
-              <h3>Tutorías</h3>
-              <p>$200 MXN</p>
+              <h3>{{ s.Titulo }}</h3>
+              <p>${{ s.Precio }} MXN</p>
             </div>
             <button class="play-btn">▶</button>
           </li>
-
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/software.jpg') }}" alt="Instalación de software">
-            <div class="info">
-              <h3>Instalación de software</h3>
-              <p>$250 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
-
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/modelado.jpg') }}" alt="Modelado 3D">
-            <div class="info">
-              <h3>Modelado 3D</h3>
-              <p>$300 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
-
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/comisiones.jpg') }}" alt="Comisiones de dibujo">
-            <div class="info">
-              <h3>Comisiones de dibujo</h3>
-              <p>$500 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
