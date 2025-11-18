@@ -3,15 +3,83 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<article class="content">
-    <h1>Página de Inicio</h1>
-    <p class="message">Bienvenido a nuestra aplicación web.</p>
 
-    <!-- Buttons for Signup and Login -->
-    <!-- int the Same line-->
-    <div class="content-action">
-        <a href="/signup" class="btn singup">Registrarse</a>
-        <a href="/login" class="btn login">Iniciar Sesión</a>
-    </div>
+<!-- Carousel de Inicio -->
+<div id="inicio-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://placehold.co/1920x400/13264D/fff?text=SLIDE+1" class="d-block w-100" alt="Slide 1">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Primer Título</h5>
+                    <p>Descripción del primer slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://placehold.co/1920x400/01B690/fff?text=SLIDE+2" class="d-block w-100" alt="Slide 2">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Segundo Título</h5>
+                    <p>Descripción del segundo slide.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#inicio-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#inicio-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+</div>
+
+<!-- Área de inicio de sesión / bienvenida -->
+<article class="content small-content">
+  <h1>Bienvenido</h1>
+  <p class="message">Explora nuestra aplicación web y forma parte de la comunidad.</p>
+
+  <div class="content-action">
+    <a href="/signup" class="btn singup">Registrarse</a>
+    <a href="/login" class="btn login">Iniciar Sesión</a>
+  </div>
 </article>
+
+<!-- Noticias o artículos destacados -->
+<section id="news" class="news-section text-white py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 text-white fw-bold">Últimas Noticias</h2>
+            <div class="row g-4">
+                <!-- Noticia 1 -->
+                <div class="col-md-4">
+                    <div class="card h-100 news-card rounded-3">
+                        <img src="https://placehold.co/600x300/F0F0F0/000?text=Noticia+1" class="card-img-top" alt="Noticia 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Innovación en el Sector</h5>
+                            <p class="card-text text-muted">Exploramos cómo la nueva tecnología está transformando la industria...</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Noticia 2 -->
+                <div class="col-md-4">
+                    <div class="card h-100 news-card rounded-3">
+                        <img src="https://placehold.co/600x300/F0F0F0/000?text=Noticia+2" class="card-img-top" alt="Noticia 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Guía para Principiantes</h5>
+                            <p class="card-text text-muted">Una mirada detallada a los pasos esenciales para empezar en nuestro servicio.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Noticia 3 -->
+                <div class="col-md-4">
+                    <div class="card h-100 news-card rounded-3">
+                        <img src="https://placehold.co/600x300/F0F0F0/000?text=Noticia+3" class="card-img-top" alt="Noticia 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Impacto Comunitario</h5>
+                            <p class="card-text text-muted">Resumen de nuestros proyectos de responsabilidad social de este trimestre.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 {% endblock %}

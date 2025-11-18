@@ -261,8 +261,9 @@ def home():
         user_data = obtener_usuario_por_id(user_id)
 
         # Obtener datos usando las funciones del proyecto
-        productos = mostrar_productos()
-        servicios = mostrar_servicios()
+        productos = mostrar_productos() or []
+        servicios = mostrar_servicios() or []
+
 
         # Si tienes función para comida, úsala. Si no, la creamos.
         try:

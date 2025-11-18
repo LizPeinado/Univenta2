@@ -13,6 +13,22 @@ body {
     box-sizing: border-box;
 }
  
+header {
+  text-align: center;
+  padding: 20px 0;
+  padding-bottom: 0px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+header, article.content, .home-container {
+    margin-top: 100px;
+}
+
+
 /* ======== Contenedor principal ======== */
 article.content{  
     justify-content: center;
@@ -81,49 +97,52 @@ article.content{
 }
 
 /* ======== Formularios ======== */
- 
+
 .content-form h1 {
     text-align: center;
     margin-top: 20px;
     padding: 0 20px 0 0;
 }
- 
+
 .content-form .error {
     color: red;
     margin-bottom: 15px;
 }
- 
+
 article.content-form {
     justify-content: center;
     align-items: center;
     display: flex;
-    width: 750px;
+    width: 700px; /* antes 500px */
+    max-width: 90%;
     margin: 40px auto 60px auto;
-    background: linear-gradient(to right, #f0f0f0, #d9d9d9);
     border-radius: 10px;
-    padding: 30px;
+    padding: 20px;
+    margin-top: 10px;
 }
- 
+
 .content-form form {
     display: flex;
     flex-direction: column;
     margin: 20px 0;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.407);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px;
+    width: 100%;
+    max-width: 650px;
 }
- 
+
 .content-form .form-group {
     margin-bottom: 15px;
 }
- 
+
 .content-form label {
     margin-bottom: 5px;
     font-weight: bold;
 }
- 
+
 .content-form input,
 .content-form textarea {
     padding: 8px;
@@ -132,14 +151,14 @@ article.content-form {
     width: 100%;
     box-sizing: border-box;
 }
- 
+
 .content-form .form-links {
     margin-top: 10px;
     text-align: center;
 }
- 
+
 .form-links a {
-    color: #1b2c51;
+    color: #13264D;
     text-decoration: none;
     font-size: 10px;
 }
@@ -148,22 +167,28 @@ article.content-form {
 .custom-navbar {
     background-color: #ffffff;
     border: none;
+    position: fixed;          
+    top: 0;                   
+    left: 0;
+    width: 100%;              
+    z-index: 1000;            
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
- 
+
 .navbar-brand img {
     height: 60px;
 }
- 
+
 .navbar-nav .nav-link {
-    color: #1b2c51;
+    color: #13264D;
     font-weight: 600;
     margin: 0 12px;
     transition: color 0.3s ease;
 }
- 
+
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-    color: #1b2c51;
+    color: #00163a;
 }
  
 /* ======== Responsividad ======== */
@@ -189,6 +214,65 @@ article.content-form {
         width: 100%;
     }
 }
+
+/* ======== Ajustes Carrusel ======== */
+#inicio-carousel img {
+  object-fit: cover;
+  height: 60vh;
+  border-bottom: 5px solid #01B690;
+}
+
+/* ======== Área de inicio más pequeña ======== */
+.small-content {
+  width: 400px;
+  padding: 30px 0 40px 0;
+}
+
+/* ======== Sección de Noticias ======== */
+.news-section {
+  background-color: #0E1C3B;
+  padding: 50px 0;
+  border-top: 3px solid #01B690;
+}
+
+.news-card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+}
+
+.news-card .card-title {
+  color: #13264D;
+  font-weight: 700;
+}
+
+.news-card .btn {
+  background-color: #01B690;
+  border: none;
+}
+
+.news-card .btn:hover {
+  background-color: #019d7c;
+}
+
+/* ======== Responsivo ======== */
+@media (max-width: 768px) {
+  #inicio-carousel img {
+    height: 40vh;
+  }
+
+  .small-content {
+    width: 90%;
+  }
+}
+
 
 /*PERFIL-----------------------------------------------------------------------------------------------------*/
 .perfil-container {
@@ -756,4 +840,68 @@ article.content-form {
     .navbar-nav .nav-link {
         margin: 6px 0;
     }
+}
+
+/* ======== Sección Sobre Nosotros ======== */
+.about-section.container {
+  background-color: #ffffff;
+  max-width: 1200px;
+  width: 90%;
+  margin: 120px auto;
+  padding: 60px 80px;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.about-title {
+  color: #00b894;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.about-description {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 50px;
+}
+
+/* ======== Tarjetas de valores ======== */
+.values-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 30px;
+  flex-wrap: wrap; /* para adaptarse a pantallas pequeñas */
+}
+
+.value-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 30px 20px;
+  flex: 1 1 30%;
+  min-width: 250px;
+  max-width: 350px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.value-card h3 {
+  color: #00b894;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.value-card p {
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
 }
