@@ -5,7 +5,7 @@ from mysql.connector import errorcode
 # Configuración de la conexión MySQL
 db_config = {
     'user': 'root',
-    'password': 'MySQL1357',
+    'password': 'ProyectoWeb25',
     'host': 'localhost',
     'database': 'prueba'
 }
@@ -250,3 +250,17 @@ def mostrar_comida():
     cnx.close()
 
     return comidas
+
+
+def obtener_producto_por_id(producto_id):
+    try:
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM producto WHERE ID = %s", (producto_id,))
+        producto = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        return producto
+    except mysql.connector.Error as err:
+        print("Error al obtener producto por ID:", err)
+        return None

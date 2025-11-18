@@ -1,15 +1,21 @@
 {% extends "navbar.html" %}
 
-{% block title %}Comida{% endblock %}
+{% block title %}{{ver.Titulo}}{% endblock %}
 
 {% block content %}
-<main class="productos-container">
-  <div class="tarjetas-bloque">
-    {% for p in comida %}
-      {% include 'components/tarjeta.html' %}
-    {% endfor %}
-  </div>
-</main>
+<article class="content">
+    <div class="Ver-producto">
+            <h1>{{ver.Titulo}}</h1>
+
+    <img src="{{ver.ImagenURL}}">
+
+    <span>{{ ver.Precio }}</span>
+    <p>Publicado por: {{ ver.NombreUsuario }}</p>
+    <p class="descripcion">{{ ver.Descripcion }}</p>
+     
+    </div>
+    
+</article>
 
 <footer class="footer">
   <h2>Contáctanos</h2>

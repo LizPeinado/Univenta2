@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_bcrypt import Bcrypt
 from datetime import datetime as dt
-from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio, mostrar_productos, mostrar_servicios
+from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio, mostrar_productos, mostrar_servicios, mostrar_comida, obtener_producto_por_id
 
 # AQUI SE SUBIRAN LAS IMAGENES
 UPLOAD_FOLDER = 'static/uploads/'
@@ -68,7 +68,9 @@ def Servicio():
 @app.route('/Comida')
 def Comida():
     # Esta vistas usan el navbar si la sesión está iniciada
-    return render_template('auth/Comida.html')
+    comidas = mostrar_comida()
+    print(">>> Comida cargada:", comidas)
+    return render_template('auth/Comida.html', comida=comidas)
 
 @app.route("/perfil/<int:id_usuario>")
 def perfil(id_usuario):
@@ -114,6 +116,24 @@ def perfil(id_usuario):
         usuario=perfil,
         producto=productos_usuario,
         id_usuario=id_usuario
+    )
+
+
+# Pagina de producto individual
+@app.route('/verProducto/<id_producto>', methods=['GET','POST'])
+def verProducto(id_producto):
+
+    productos = mostrar_productos()
+
+    producto = [p for p in productos if p["ID"] == id_producto]
+
+   # if id_producto not in producto:
+    #    return "Hmm... No pudimos encontrar este producto", 404
+
+    return render_template(
+        'auth/verProducto.html',
+        ver = producto,
+        id_producto=id_producto
     )
 
 #FORMATOS PERMITIDOS PARA SUBIR IMAGENES
