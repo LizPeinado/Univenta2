@@ -70,6 +70,14 @@ def Comida():
     # Esta vistas usan el navbar si la sesión está iniciada
     return render_template('auth/Comida.html')
 
+#Chats genera la pagina
+@app.route('/Chats')
+@login_required
+def chats():
+    chats_usuario = []   # ← evita error
+    return render_template("auth/Chats.html", chats=chats_usuario)
+
+
 @app.route("/perfil/<int:id_usuario>")
 def perfil(id_usuario):
 
