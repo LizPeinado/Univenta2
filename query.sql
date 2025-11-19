@@ -33,3 +33,11 @@ MODIFY password VARCHAR(255) NOT NULL;
 
 INSERT INTO usuarios (nombre, email) VALUES ('oscar','oscar@mail.mx');
 
+-- contacto--
+CREATE TABLE contacto (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(120) NOT NULL,
+    email VARCHAR(120) NOT NULL,
+    mensaje TEXT NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
