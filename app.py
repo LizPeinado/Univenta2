@@ -1,8 +1,8 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_bcrypt import Bcrypt
 from datetime import datetime as dt
-from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio, mostrar_productos, mostrar_servicios, mostrar_comida, obtener_producto_por_id
+from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio, mostrar_productos, mostrar_servicios, mostrar_comida, obtener_producto_por_id, get_db
 
 # AQUI SE SUBIRAN LAS IMAGENES
 UPLOAD_FOLDER = 'static/uploads/'
@@ -41,10 +41,37 @@ def about():
     # Estas vistas usan el navbar público si la sesión está cerrada
     return render_template('about.html')
 
-@app.route('/contact')
+# Contacto
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    # Estas vistas usan el navbar público si la sesión está cerrada
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        mensaje = request.form.get('mensaje')
+
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+
+            sql = """
+            INSERT INTO contacto (nombre, email, mensaje)
+            VALUES (%s, %s, %s)
+            """
+
+            cursor.execute(sql, (nombre, email, mensaje))
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            return render_template('contact.html', success=True)
+
+        except Exception as e:
+            print("ERROR:", e)
+            flash("Error al guardar en la base de datos.")
+            return render_template('contact.html', success=False)
+
     return render_template('contact.html')
+
 
 
 # --- Rutas sesion iniciada --- 
@@ -286,7 +313,6 @@ def home():
         servicios = mostrar_servicios() or []
         comida = mostrar_comida() or []
 
-
         return render_template(
             'auth/home.html',
             user=user_data,
@@ -311,4 +337,6 @@ def settings():
 # --- Inicio del Servidor ---
 if __name__ == '__main__':
     app.run(debug=True)
+
+
 
