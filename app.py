@@ -130,9 +130,10 @@ def verProducto(id_producto):
    # if id_producto not in producto:
     #    return "Hmm... No pudimos encontrar este producto", 404
 
+    print(producto[0]["Titulo"])
     return render_template(
         'auth/verProducto.html',
-        ver = producto,
+        ver = producto[0],
         id_producto=id_producto
     )
 
