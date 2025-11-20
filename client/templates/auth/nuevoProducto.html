@@ -15,7 +15,7 @@
 {% endif %}
 
     <main>
-        <form class="form" action="/nuevoProducto" method="POST" novalidate enctype="multipart/form-data">
+        <form class="form nuevoProducto" action="/nuevoProducto" method="POST" novalidate enctype="multipart/form-data">
             <!-- TITULO DEL PRODUCTO-->
             <div class="form-group">
                 <label for="Titulo">Titulo:</label><br>
@@ -73,12 +73,12 @@
             <!-- PRECIO DEL PRODUCTO-->
             <p>¿Cuánto cuesta tu producto? Ingresa solo el número</p>
             <div class="form-group">
-                <label for="Precio">Precio</label>
+                <label for="Precio">Precio: $</label>
                 <input 
                     type="text"
                     id="Precio"
                     name="Precio"
-                    placeholder="$0"
+                    placeholder="0"
                     required
                     autofocus
                     aria-label="Precio"
