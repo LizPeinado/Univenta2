@@ -5,10 +5,10 @@ from mysql.connector import errorcode
 # Configuración de la conexión MySQL
 db_config = {
     'user': 'root',
-    'password': 'MySQL1357',
+    'password': 'Cricet18',
     'host': 'localhost',
     'database': 'prueba'
-}
+} 
 
 def crear_tabla_usuarios():
     try:
@@ -121,7 +121,7 @@ def crear_tabla_comida():
         )
         """
 
-        cursor.execute(crear_tabla_servicios)
+        cursor.execute(crear_tabla_comida)
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -264,3 +264,7 @@ def obtener_producto_por_id(producto_id):
     except mysql.connector.Error as err:
         print("Error al obtener producto por ID:", err)
         return None
+    
+# Contacto
+def get_db():
+    return mysql.connector.connect(**db_config)
