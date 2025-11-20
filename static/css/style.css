@@ -305,7 +305,7 @@ article.content-form {
 .perfil-container {
   width: 90%;
   margin: auto;
-  margin-top: 2rem;
+  margin-top: 5rem;
   font-family: 'Lato', sans-serif;
 }
 
@@ -649,13 +649,15 @@ article.content-form {
 }
 
 .producto-info{
+  z-index: 1000;
+  background-color: #ffffff77;
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  height: 3rem;
 }
 
 .titulo {
-  z-index: 1000;
   position: absolute;
   left: 2rem;
   font-size: 1.3rem;
@@ -710,6 +712,7 @@ article.content-form {
 
 /* Lado trasero (comentarios) */
 .card-back {
+  z-index: 1000;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
@@ -756,6 +759,7 @@ article.content-form {
   border: 1px solid #ccc;
   border-radius: 20px;
   padding: 0.4rem 0.8rem;
+  width: 70%;
 }
 
 .popup-input button {
