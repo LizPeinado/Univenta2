@@ -2,6 +2,7 @@
   <div class="card-inner">
     <!-- LADO FRONTAL -->
     <div class="card-front">
+      
       <div class="producto-header">
         <div class="vendedor-info">
           <div class="vendedor-img-placeholder"></div>
@@ -13,25 +14,29 @@
                 <img src="/static/img/Untitled-1-01.png" alt="Chat con vendedor">
             </div>
         </a>
-      </div>
+        </div>
 
-      <div class="producto-info">
+        <div class="producto-info">
         <h2 class="titulo">{{ p.Titulo }}</h2>
         <span class="precio">${{ p.Precio }}</span>
-      </div>
+        </div>
       
-      <!-- Espacio para imagen -->
-      <div class="imagen-placeholder">
-        <img class ="imagen-tarjeta" src="{{ p.ImagenURL }}" alt="Imagen Producto">
-        <!--span>Imagen no disponible</span-->
+        <!-- Espacio para imagen -->
+        <a class="{% if request.path == '/verProducto' %}active{% endif %}"href="/verProducto/{{p.ID}}">
+          <div class="imagen-placeholder">
+            <img class ="imagen-tarjeta" src="{{ p.ImagenURL }}" alt="Imagen Producto">
+            <!--span>Imagen no disponible</span-->
+          </div>
+        </a>
+
+        <p class="descripcion">{{ p.Descripcion }}</p>
+
+        <button class="comentarios-btn" onclick="mostrarComentarios(this)">
+        <i class="bi bi-chat-left-fill" style="color: #be185d;"></i>
+        </button>
       </div>
 
-      <p class="descripcion">{{ p.Descripcion }}</p>
-
-      <button class="comentarios-btn" onclick="mostrarComentarios(this)">
-        <i class="bi bi-chat-left-fill" style="color: #be185d;"></i>
-      </button>
-    </div>
+      
 
     <!-- LADO TRASERO -->
     <div class="card-back">

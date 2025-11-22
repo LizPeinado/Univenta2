@@ -5,10 +5,10 @@ from mysql.connector import errorcode
 # Configuración de la conexión MySQL
 db_config = {
     'user': 'root',
-    'password': 'renzho02',
+    'password': 'MySQL1357',
     'host': 'localhost',
     'database': 'prueba'
-}
+} 
 
 def crear_tabla_usuarios():
     try:
@@ -66,7 +66,13 @@ def obtener_usuario_por_id(user_id):
     try:
         cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor(dictionary=True)
-        cursor.execute("SELECT id, fname, lastname, email FROM users WHERE id = %s", (user_id,))
+        
+        cursor.execute("""
+            SELECT id, fname, lastname, email, password 
+            FROM users 
+            WHERE id = %s
+        """, (user_id,))
+        
         usuario = cursor.fetchone()
         cursor.close()
         cnx.close()
@@ -74,6 +80,8 @@ def obtener_usuario_por_id(user_id):
     except mysql.connector.Error as err:
         print("Error al obtener usuario por ID:", err)
         return None
+
+
 
 #PRODUCTOS
 def crear_tabla_productos():
@@ -121,7 +129,7 @@ def crear_tabla_comida():
         )
         """
 
-        cursor.execute(crear_tabla_servicios)
+        cursor.execute(crear_tabla_comida)
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -295,3 +303,21 @@ def obtener_usuario_por_id_completo(user_id):
     except mysql.connector.Error as err:
         print("Error al obtener usuario completo:", err)
         return None
+
+
+def obtener_producto_por_id(producto_id):
+    try:
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM producto WHERE ID = %s", (producto_id,))
+        producto = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        return producto
+    except mysql.connector.Error as err:
+        print("Error al obtener producto por ID:", err)
+        return None
+    
+# Contacto
+def get_db():
+    return mysql.connector.connect(**db_config)

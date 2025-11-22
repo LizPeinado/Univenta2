@@ -3,53 +3,91 @@
 {% block title %}Contacto{% endblock %}
 
 {% block content %}
+<header>
+   <h1>Contacto</h1> 
+</header>
 
 <article class="content-form">
-    <aside class="title-decor">
-        <h1>Contacto</h1>
-        <p class="message">Puedes contactarnos a través de este formulario.</p>
-    </aside>
     <aside class="form">
+
+        <!-- Mensajes Flash -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for msg in messages %}
+                <li>{{ msg }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
         <form class="form contact" action="/contact" method="POST" novalidate>
+
             <div class="form-group">
-                <label for="nombre">Nombre:</label><br>
+                <label for="nombre">Nombre:</label>
                 <input 
                     type="text" 
                     id="nombre" 
                     name="nombre"
                     placeholder="Tu nombre"
-                    autofocus
-                    aria-label="Nombre"
-                    >
+                    required
+                >
             </div>
+
             <div class="form-group">
-                <label for="email">Email:</label><br>
+                <label for="email">Email:</label>
                 <input 
                     type="email" 
                     id="email" 
                     name="email"
                     placeholder="your@mail.com"
                     required
-                    aria-label="Email"
-                    >
-
+                >
             </div>
 
             <div class="form-group">
-                <label for="mensaje">Mensaje:</label><br>
+                <label for="mensaje">Mensaje:</label>
                 <textarea 
                     id="mensaje" 
                     name="mensaje" 
-                    rows="4" 
-                    cols="50">
-                </textarea>
+                    rows="4"
+                    placeholder="Escribe tu mensaje aquí"
+                    required
+                ></textarea>
             </div>
+
             <div class="form-actions">
-                <input  class="submit" type="submit" value="Enviar">
+                <input class="submit" type="submit" value="Enviar">
             </div>
+
         </form>
     </aside>
-
 </article>
+<!-- modal -->
+<div class="modal fade" id="successModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background-color: #00B791;">
+        <h5 class="modal-title">Mensaje enviado</h5>
+      </div>
+      <div class="modal-body">
+        Tu mensaje se envió correctamente. Serás redirigido en unos segundos.
+      </div>
+    </div>
+  </div>
+</div>
+{% if success %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = new bootstrap.Modal(document.getElementById('successModal'));
+        modal.show();
+
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 2500);
+    });
+</script>
+{% endif %}
+
 
 {% endblock %}

@@ -3,9 +3,11 @@
 {% block title %}Registro{% endblock %}
 
 {% block content %}
-
-<article class="content-form">
+<header>
     <h1>Registrarse</h1>
+</header>
+<article class="content-form">
+    
     {% if error %}
     <p class="error">{{ error }}</p>
     {% endif %}

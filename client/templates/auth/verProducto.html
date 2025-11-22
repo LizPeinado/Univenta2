@@ -1,0 +1,61 @@
+{% extends "navbar.html" %}
+
+{% block title %}{{ver.Titulo}}{% endblock %}
+
+{% block content %}
+<article class="content">
+    <div class="Ver-producto">
+
+      <h1>{{ver.Titulo}}</h1><br>
+
+      <div class="lado-izquierdo">
+          <img class="VerProductoImagen" src="{{ver.ImagenURL | replace ('./','/')}}">
+
+          <p>Publicado por: <span style="font-weight: bold;">{{ ver.NombreUsuario }}</span></p>
+      </div>
+
+    <div class="lado-derecho">
+      <div class="Ver-producto-descripcion">
+        <span style="font-weight: bold;">${{ ver.Precio }}</span>
+        <p class="descripcion">{{ ver.Descripcion }}</p>
+      </div>
+
+      <div class="contacta-vendedor">
+        <p>¿Interesado? Contacta al vendedor: </p>
+        <a href="/">
+          <div class="icono-grupo">
+            <img src="/static/img/Untitled-1-01.png" alt="Chat general">
+          </div>
+        </a>
+      </div>
+      
+    </div>
+
+    
+
+    
+    </div>
+    
+</article>
+
+<footer class="footer">
+  <h2>Contáctanos</h2>
+  <div class="columns">
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+  </div>
+</footer>
+
+<script>
+function mostrarComentarios(btn) {
+  const card = btn.closest('.producto-card');
+  card.classList.add('mostrando-comentarios');
+}
+
+function cerrarComentarios(btn) {
+  const card = btn.closest('.producto-card');
+  card.classList.remove('mostrando-comentarios');
+}
+</script>
+{% endblock %}

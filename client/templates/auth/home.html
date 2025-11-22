@@ -5,7 +5,7 @@
 {% block content %}
 <!-- Verifica si el objeto user fue pasado (siempre debería ser true aquí) -->
 
-<article class="content">
+<article class="content-2">
 {% if user %}
 <h1 style="color: #10B981;">¡Bienvenido(a), {{ user.fname }}!</h1>
 <p class="message">Has iniciado sesión exitosamente. Esta es tu página de inicio protegida.</p>
@@ -25,7 +25,7 @@
     <div id="carousel-producto" class="splide" aria-label="Carrusel de productos">
       <div class="splide__track">
         <ul class="splide__list">
-          <ul class="splide__list">
+         
             {% for p in productos %}
             <li class="splide__slide card">
               <img src="{{ p.ImagenURL }}" alt="{{ p.Titulo }}">
@@ -33,10 +33,9 @@
                 <h3>{{ p.Titulo }}</h3>
                 <p>${{ p.Precio }} MXN</p>
               </div>
-              <button class="play-btn">▶</button>
+              <a href="/Producto"><button class="play-btn">▶</button></a>
             </li>
             {% endfor %}
-          </ul>
 
         </ul>
       </div>
@@ -56,7 +55,7 @@
               <h3>{{ s.Titulo }}</h3>
               <p>${{ s.Precio }} MXN</p>
             </div>
-            <button class="play-btn">▶</button>
+            <a href="/Servicio"><button class="play-btn">▶</button></a>
           </li>
           {% endfor %}
         </ul>
@@ -70,41 +69,16 @@
     <div id="carousel-comida" class="splide" aria-label="Carrusel de comida">
       <div class="splide__track">
         <ul class="splide__list">
+          {% for c in comidas %}
           <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/galletas.jpg') }}" alt="Galletas">
+            <img src="{{ c.ImagenURL }}" alt="{{ c.Titulo }}">
             <div class="info">
-              <h3>Galletas</h3>
-              <p>$35 MXN</p>
+              <h3>{{ c.Titulo }}</h3>
+              <p>${{ c.Precio }} MXN</p>
             </div>
-            <button class="play-btn">▶</button>
+            <a href="/Comida"><button class="play-btn">▶</button></a>
           </li>
-
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/burritos.jpg') }}" alt="Burritos">
-            <div class="info">
-              <h3>Burritos</h3>
-              <p>$25 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
-
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/sandwich.jpg') }}" alt="Sandwich">
-            <div class="info">
-              <h3>Sandwich</h3>
-              <p>$35 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
-
-          <li class="splide__slide card">
-            <img src="{{ url_for('static', filename='img/cafe.jpg') }}" alt="Café">
-            <div class="info">
-              <h3>Café</h3>
-              <p>$20 MXN</p>
-            </div>
-            <button class="play-btn">▶</button>
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </div>

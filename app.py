@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_bcrypt import Bcrypt
 from datetime import datetime as dt
 from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio, mostrar_productos, mostrar_servicios
@@ -35,6 +35,7 @@ from server.db import (
 #mongo_db = mongo_client['chats_db']
 #chats_collection = mongo_db['chats']
 
+from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio, mostrar_productos, mostrar_servicios, mostrar_comida, obtener_producto_por_id, get_db
 
 # AQUI SE SUBIRAN LAS IMAGENES
 UPLOAD_FOLDER = 'static/uploads/'
@@ -73,10 +74,37 @@ def about():
     # Estas vistas usan el navbar público si la sesión está cerrada
     return render_template('about.html')
 
-@app.route('/contact')
+# Contacto
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    # Estas vistas usan el navbar público si la sesión está cerrada
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        mensaje = request.form.get('mensaje')
+
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+
+            sql = """
+            INSERT INTO contacto (nombre, email, mensaje)
+            VALUES (%s, %s, %s)
+            """
+
+            cursor.execute(sql, (nombre, email, mensaje))
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            return render_template('contact.html', success=True)
+
+        except Exception as e:
+            print("ERROR:", e)
+            flash("Error al guardar en la base de datos.")
+            return render_template('contact.html', success=False)
+
     return render_template('contact.html')
+
 
 
 # --- Rutas sesion iniciada --- 
@@ -100,7 +128,9 @@ def Servicio():
 @app.route('/Comida')
 def Comida():
     # Esta vistas usan el navbar si la sesión está iniciada
-    return render_template('auth/Comida.html')
+    comidas = mostrar_comida()
+    print(">>> Comida cargada:", comidas)
+    return render_template('auth/Comida.html', comida=comidas)
 
 # --- Rutas para el Chat ---
 
@@ -286,6 +316,25 @@ def perfil(id_usuario):
         id_usuario=id_usuario
     )
 
+
+# Pagina de producto individual
+@app.route('/verProducto/<int:id_producto>', methods=['GET','POST'])
+def verProducto(id_producto):
+
+    productos = mostrar_productos()
+
+    producto = [p for p in productos if p["ID"] == id_producto]
+
+   # if id_producto not in producto:
+    #    return "Hmm... No pudimos encontrar este producto", 404
+
+    print(producto[0]["Titulo"])
+    return render_template(
+        'auth/verProducto.html',
+        ver = producto[0],
+        id_producto=id_producto
+    )
+
 #FORMATOS PERMITIDOS PARA SUBIR IMAGENES
 formatos_validos = {'jpg', 'jpeg', 'png', 'gif'}
 
@@ -431,38 +480,64 @@ def home():
         user_data = obtener_usuario_por_id(user_id)
 
         # Obtener datos usando las funciones del proyecto
-        productos = mostrar_productos()
-        servicios = mostrar_servicios()
-
-        # Si tienes función para comida, úsala. Si no, la creamos.
-        try:
-            from server.db import mostrar_comida
-            comidas = mostrar_comida()
-        except:
-            comidas = []
+        productos = mostrar_productos() or []
+        servicios = mostrar_servicios() or []
+        comida = mostrar_comida() or []
 
         return render_template(
             'auth/home.html',
             user=user_data,
             productos=productos,
             servicios=servicios,
-            comidas=comidas
+            comidas=comida
         )
 
     return render_template('index.html')
 
 
 @app.route('/settings')
-@login_required 
+@login_required
 def settings():
     user_id = session.get('user_id')
-    user_data = obtener_usuario_por_id(user_id)
-    
-    # RENDERIZA LA NUEVA PLANTILLA DENTRO DE AUTH/
-    return render_template('auth/settings.html', user=user_data)
+    user = obtener_usuario_por_id(user_id)
+    return render_template('auth/settings.html', user=user)
+
+# cambio de contraseña
+@app.route('/update_password', methods=['POST'])
+@login_required
+def update_password():
+    user_id = session.get('user_id')
+
+    actual = request.form.get('password_actual')
+    nueva = request.form.get('password_nueva')
+    confirma = request.form.get('password_confirm')
+
+    user = obtener_usuario_por_id(user_id)
+
+    print("USER DATA:", user)
+
+    if not bcrypt.check_password_hash(user['password'], actual):
+        flash("La contraseña actual es incorrecta.")
+        return redirect('/settings')
+
+    if nueva != confirma:
+        flash("Las contraseñas nuevas no coinciden.")
+        return redirect('/settings')
+
+    nueva_hash = bcrypt.generate_password_hash(nueva).decode('utf-8')
+
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET password = %s WHERE id = %s", (nueva_hash, user_id))
+    conn.commit()
+
+    flash("Contraseña actualizada exitosamente.")
+    return redirect('/settings')
 
 
 # --- Inicio del Servidor ---
 if __name__ == '__main__':
     app.run(debug=True)
+
+
 
