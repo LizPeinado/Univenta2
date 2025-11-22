@@ -5,16 +5,36 @@
 {% block content %}
 <article class="content">
     <div class="Ver-producto">
-            <h1>{{ver.Titulo}}</h1>
 
-    <img src="{{ver.ImagenURL}}">
+      <h1>{{ver.Titulo}}</h1><br>
 
-    <span>{{ ver.Precio }}</span>
-    <p>Publicado por: {{ ver.NombreUsuario }}</p>
-    <p class="descripcion">{{ ver.Descripcion }}</p>
-     
+      <div class="lado-izquierdo">
+          <img class="VerProductoImagen" src="{{ver.ImagenURL | replace ('./','/')}}">
+
+          <p>Publicado por: <span style="font-weight: bold;">{{ ver.NombreUsuario }}</span></p>
+      </div>
+
+    <div class="lado-derecho">
+      <div class="Ver-producto-descripcion">
+        <span style="font-weight: bold;">${{ ver.Precio }}</span>
+        <p class="descripcion">{{ ver.Descripcion }}</p>
+      </div>
+
+      <div class="contacta-vendedor">
+        <p>¿Interesado? Contacta al vendedor: </p>
+        <a href="/">
+          <div class="icono-grupo">
+            <img src="/static/img/Untitled-1-01.png" alt="Chat general">
+          </div>
+        </a>
+      </div>
+      
     </div>
-    <p>{{ id_producto }}</p>
+
+    
+
+    
+    </div>
     
 </article>
 
