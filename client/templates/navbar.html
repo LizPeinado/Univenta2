@@ -57,6 +57,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item  {% if request.path == '/perfil' %}active{% endif %}" href="/perfil/1">Mi perfil</a></li>
+                                <li><a class="dropdown-item {% if request.path == '/settings' %}active{% endif %}" href="/settings">Configuraciones</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item text-danger" href="/logout">Cerrar sesión</a></li>
                             </ul>

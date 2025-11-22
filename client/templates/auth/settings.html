@@ -3,19 +3,52 @@
 {% block title %}Configuraciones{% endblock %}
 
 {% block content %}
-<article class="content">
-    <h1 style="color: #3B82F6;">Mi Perfil (Settings)</h1>
-    <p class="message">Esta es la información de tu perfil. Solo la ves si estás logueado.</p>
+    <article class="content" style="margin-top: 100px;">
+        <h1 style="color: #3B82F6;">Configuraciones de mi cuenta</h1>
+        <p class="message">Administra tu información personal y contraseña.</p>
 
-    {% if user %}
-    <div style="border: 1px solid #D1D5DB; padding: 20px; border-radius: 8px; max-width: 400px;">
-        <p><strong>ID de Usuario:</strong> {{ user.id }}</p>
-        <p><strong>Nombre Completo:</strong> {{ user.nombre }}</p>
-        <p><strong>Email (Login):</strong> {{ user.email }}</p>
-        <!-- Nota: NUNCA se debe mostrar el password_hash aquí -->
-    </div>
+        {% if user %}
+        <!-- DATOS DEL PERFIL -->
+        <section class="profile-card">
+        <h3 class="profile-title">Información del usuario</h3>
+
+        <div class="profile-row">
+            <span class="label">ID de Usuario:</span>
+            <span class="value">{{ user.id }}</span>
+        </div>
+
+        <div class="profile-row">
+            <span class="label">Nombre Completo:</span>
+            <span class="value">{{ user.fname }} {{ user.lastname }}</span>
+        </div>
+
+        <div class="profile-row">
+            <span class="label">Email:</span>
+            <span class="value">{{ user.email }}</span>
+        </div>
+    </section>
+
+    <!-- CAMBIO DE CONTRASEÑA -->
+    <section style="border: 1px solid #D1D5DB; padding: 20px; border-radius: 8px; max-width: 500px;">
+        <h3 style="margin-bottom: 12px;">Cambiar contraseña</h3>
+
+        <form action="/update_password" method="POST">
+            <label>Contraseña actual:</label>
+            <input type="password" name="password_actual" class="form-control" required>
+
+            <label style="margin-top: 10px;">Nueva contraseña:</label>
+            <input type="password" name="password_nueva" class="form-control" required>
+
+            <label style="margin-top: 10px;">Confirmar nueva contraseña:</label>
+            <input type="password" name="password_confirm" class="form-control" required>
+
+            <br>
+            <button class="btn btn-success" type="submit">Actualizar contraseña</button>
+        </form>
+    </section>
+
     {% else %}
-    <p class="error" style="color: red;">Error: No se pudo cargar la información del usuario. Intenta iniciar sesión de nuevo.</p>
+    <p class="error" style="color: red;">Error: No se pudo cargar la información del usuario.</p>
     {% endif %}
 </article>
 {% endblock %}

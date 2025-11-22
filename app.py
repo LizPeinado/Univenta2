@@ -325,13 +325,43 @@ def home():
 
 
 @app.route('/settings')
-@login_required 
+@login_required
 def settings():
     user_id = session.get('user_id')
-    user_data = obtener_usuario_por_id(user_id)
-    
-    # RENDERIZA LA NUEVA PLANTILLA DENTRO DE AUTH/
-    return render_template('auth/settings.html', user=user_data)
+    user = obtener_usuario_por_id(user_id)
+    return render_template('auth/settings.html', user=user)
+
+# cambio de contraseña
+@app.route('/update_password', methods=['POST'])
+@login_required
+def update_password():
+    user_id = session.get('user_id')
+
+    actual = request.form.get('password_actual')
+    nueva = request.form.get('password_nueva')
+    confirma = request.form.get('password_confirm')
+
+    user = obtener_usuario_por_id(user_id)
+
+    print("USER DATA:", user)
+
+    if not bcrypt.check_password_hash(user['password'], actual):
+        flash("La contraseña actual es incorrecta.")
+        return redirect('/settings')
+
+    if nueva != confirma:
+        flash("Las contraseñas nuevas no coinciden.")
+        return redirect('/settings')
+
+    nueva_hash = bcrypt.generate_password_hash(nueva).decode('utf-8')
+
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET password = %s WHERE id = %s", (nueva_hash, user_id))
+    conn.commit()
+
+    flash("Contraseña actualizada exitosamente.")
+    return redirect('/settings')
 
 
 # --- Inicio del Servidor ---
