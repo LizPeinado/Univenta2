@@ -3,6 +3,38 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_bcrypt import Bcrypt
 from datetime import datetime as dt
 from server.db import crear_tabla_usuarios, agregar_usuario, obtener_usuario_por_email, obtener_usuario_por_id, crear_tabla_productos, crear_tabla_comida, crear_tabla_servicios, agregar_producto_o_servicio, mostrar_productos, mostrar_servicios
+from pymongo import MongoClient
+from bson import ObjectId
+import os
+
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
+mongo_client = MongoClient(MONGO_URI)
+
+mongo_db = mongo_client['chats_db']
+chats_collection = mongo_db['chats']
+
+from server.db import (
+    crear_tabla_usuarios, 
+    agregar_usuario, 
+    obtener_usuario_por_email, 
+    obtener_usuario_por_id,
+    crear_tabla_productos,
+    crear_tabla_comida, 
+    crear_tabla_servicios, 
+    agregar_producto_o_servicio, 
+    mostrar_productos, 
+    mostrar_servicios,
+    mostrar_comida,
+    obtener_producto_por_id,
+    obtener_usuario_por_id_completo
+)
+
+# Configuración MongoDB
+#MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
+#mongo_client = MongoClient(MONGO_URI)
+#mongo_db = mongo_client['chats_db']
+#chats_collection = mongo_db['chats']
+
 
 # AQUI SE SUBIRAN LAS IMAGENES
 UPLOAD_FOLDER = 'static/uploads/'
@@ -70,13 +102,143 @@ def Comida():
     # Esta vistas usan el navbar si la sesión está iniciada
     return render_template('auth/Comida.html')
 
-#Chats genera la pagina
+# --- Rutas para el Chat ---
+
+def obtener_o_crear_chat(user_id, other_user_id, product_id):
+    """Busca un chat existente o crea uno nuevo"""
+    # Buscar chat existente
+    chat_existente = chats_collection.find_one({
+        'participantes': {'$all': [user_id, other_user_id]},
+        'producto_id': product_id
+    })
+    
+    if chat_existente:
+        return str(chat_existente['_id'])
+    
+    # Crear nuevo chat
+    producto = obtener_producto_por_id(product_id)
+    if not producto:
+        return None
+    
+    nuevo_chat = {
+        'participantes': [user_id, other_user_id],
+        'producto_id': product_id,
+        "producto_imagen": producto["ImagenURL"],
+        'producto_titulo': producto['Titulo'],
+        'creado_en': dt.now(),
+        'mensajes': []
+    }
+    
+    resultado = chats_collection.insert_one(nuevo_chat)
+    return str(resultado.inserted_id)
+
+def obtener_chats_usuario(user_id):
+    """Obtiene todos los chats de un usuario"""
+    chats = chats_collection.find({
+        'participantes': user_id
+    }).sort('creado_en', -1)
+    
+    chats_lista = []
+    for chat in chats:
+        # Encontrar el otro participante
+        otro_id = [p for p in chat['participantes'] if p != user_id][0]
+        otro_usuario = obtener_usuario_por_id_completo(otro_id)
+        
+        chats_lista.append({
+            '_id': str(chat['_id']),
+            'producto_titulo': chat['producto_titulo'],
+            'con_nombre': otro_usuario['nombre_completo'] if otro_usuario else 'Usuario',
+            'ultimo_mensaje': chat['mensajes'][-1]['mensaje'] if chat['mensajes'] else 'Sin mensajes',
+            'fecha_ultimo_mensaje': chat['mensajes'][-1]['timestamp'] if chat['mensajes'] else chat['creado_en']
+        })
+    
+    return chats_lista
+
 @app.route('/Chats')
 @login_required
 def chats():
-    chats_usuario = []   # ← evita error
+    user_id = session.get('user_id')
+    chats_usuario = obtener_chats_usuario(user_id)
+    
     return render_template("auth/Chats.html", chats=chats_usuario)
 
+# RUTA PARA INICIAR/CREAR CHAT - USA ESTA EN EL BOTÓN
+@app.route('/iniciar_chat/<int:product_id>/<int:other_user_id>')
+@login_required
+def iniciar_chat(product_id, other_user_id):
+    """Ruta para iniciar o crear un chat - USA ESTA EN EL BOTÓN"""
+    user_id = session.get('user_id')
+    
+    # Obtener o crear chat
+    chat_id = obtener_o_crear_chat(user_id, other_user_id, product_id)
+    
+    if not chat_id:
+        return "Producto no encontrado", 404
+    
+    # Redirigir a chat_detalle
+    return redirect(url_for('chat_detalle', chat_id=chat_id))
+
+@app.route('/enviar_mensaje', methods=['POST'])
+@login_required
+def enviar_mensaje_route():
+    """Ruta para enviar mensajes"""
+    user_id = session.get('user_id')
+    chat_id = request.form.get('chat_id')
+    mensaje_texto = request.form.get('mensaje')
+    
+    if not all([chat_id, mensaje_texto]):
+        return "Datos incompletos", 400
+    
+    try:
+        nuevo_mensaje = {
+            'sender_id': user_id,
+            'mensaje': mensaje_texto,
+            'timestamp': dt.now()
+        }
+        
+        resultado = chats_collection.update_one(
+            {'_id': ObjectId(chat_id)},
+            {'$push': {'mensajes': nuevo_mensaje}}
+        )
+        
+        if resultado.modified_count > 0:
+            return redirect(url_for('chat_detalle', chat_id=chat_id))
+        else:
+            return "Error al enviar mensaje", 500
+            
+    except Exception as e:
+        print("Error:", e)
+        return "Error interno del servidor", 500
+# ACTUALIZA TU RUTA chat_detalle EXISTENTE
+@app.route('/chat_detalle/<chat_id>')
+@login_required
+def chat_detalle(chat_id):
+    """Ruta para ver el detalle del chat"""
+    user_id = session.get('user_id')
+    
+    try:
+        chat = chats_collection.find_one({'_id': ObjectId(chat_id)})
+    except:
+        return "Chat no encontrado", 404
+    
+    if not chat or user_id not in chat['participantes']:
+        return "Chat no encontrado", 404
+    
+    # Obtener información del producto
+    producto = obtener_producto_por_id(chat['producto_id'])
+    
+    # Obtener el otro participante
+    other_id = [p for p in chat['participantes'] if p != user_id][0]
+    other_user = obtener_usuario_por_id_completo(other_id)
+    
+    return render_template('auth/chat_detalle.html',
+                         chat_id=chat_id,
+                         mensajes=chat['mensajes'],
+                         producto=producto,
+                         producto_titulo=chat['producto_titulo'],
+                         producto_imagen=chat.get('producto_imagen'), 
+                         nombre_otro=other_user['nombre_completo'] if other_user else 'Usuario',
+                         other_id=other_id)
 
 @app.route("/perfil/<int:id_usuario>")
 def perfil(id_usuario):

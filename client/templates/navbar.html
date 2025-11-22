@@ -46,11 +46,13 @@
                         <li class="nav-item"><a class="nav-link fw-semibold {% if request.path == '/Servicio' %}active{% endif %}" href="/Servicio">Servicio</a></li>
                         <li class="nav-item"><a class="nav-link fw-semibold {% if request.path == '/Comida' %}active{% endif %}" href="/Comida">Comida</a></li>
                         <!-- Mostrar cuando el usuario ha iniciado sesión -->
+                        <li class="nav-item"><a class="nav-link fw-semibold {% if request.path == '/Chats' %}active{% endif %}" href="/Chats">Chats</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navbarDropdown" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-lines-fill"></i> {{ session['user_name'] }}
                             </a>
+                            
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item  {% if request.path == '/perfil' %}active{% endif %}" href="/perfil/1">Mi perfil</a></li>
                                 <li><hr class="dropdown-divider"></li>

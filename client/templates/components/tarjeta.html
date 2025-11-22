@@ -7,11 +7,11 @@
           <div class="vendedor-img-placeholder"></div>
           <span class="nombre">{{ p.NombreUsuario }}</span>
         </div>
-        
-        <a href="/">
-          <div class="icono-grupo">
-          <img src="/static/img/Untitled-1-01.png" alt="Chat general">
-        </div>
+        <!-- BOTÓN CORREGIDO -->
+        <a href="{{ url_for('iniciar_chat', product_id=p.ID, other_user_id=p.IDusuario) }}">
+            <div class="icono-grupo">
+                <img src="/static/img/Untitled-1-01.png" alt="Chat con vendedor">
+            </div>
         </a>
       </div>
 

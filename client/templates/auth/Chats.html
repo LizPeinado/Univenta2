@@ -1,0 +1,47 @@
+{% extends "navbar.html" %}
+
+{% block title %}Chats{% endblock %}
+
+{% block content %}
+
+<article class="content"> 
+    <h1 style="color: #10B981;">Mis Chats</h1>
+    <p class="message">Aquí puedes ver todos los chats activos relacionados con tus productos y compras.</p>
+</article>
+
+<main class="home-container">
+    <section class="category">
+        <h2>Chats activos</h2>
+
+        {% if chats %}
+        <ul style="list-style: none; padding: 0;">
+            {% for chat in chats %}
+            <li style="background: #fff; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <h3 style="margin: 0 0 0.5rem;">
+                    {{ chat.producto_titulo }}
+                </h3>
+                <p style="margin: 0; color: #555;">
+                    <strong>Con:</strong> {{ chat.con_nombre }}
+                </p>
+                <a href="{{ url_for('chat_detalle', chat_id=chat._id) }}" 
+                   class="btn-chat-open">
+                    Abrir chat
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p style="text-align: center; padding: 1rem;">No tienes chats activos.</p>
+        {% endif %}
+    </section>
+</main>
+
+<footer class="footer">
+  <h2>Contáctanos</h2>
+  <div class="columns">
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+    <div><p>Lorem ipsum dolor sit amet.</p></div>
+  </div>
+</footer>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "navbar.html" %}
+
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+
+<article class="content">
+    <h1>Chat con {{ nombre_otro }}</h1>
+    <p class="message">Aquí puedes conversar sobre el producto seleccionado.</p>
+</article>
+
+<main class="home-container">
+
+    <section class="category chat-category">
+        
+        <a href="{{ url_for('chats') }}" class="btn-volver-flotante">
+            ↩
+        </a>
+
+        <h2>{{ producto_titulo }}</h2>
+
+        <!--info del producto-->
+        {% if producto %}
+        <div class="chat-product-info">
+
+            <img src="{{ producto_imagen or producto.ImagenURL }}" 
+                alt="Producto" class="chat-product-img">
+
+            <p><strong>Precio:</strong> ${{ producto.Precio }}</p>
+            <p>{{ producto.Descripcion }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="chat-header">
+            <p>Conversación con <strong>{{ nombre_otro }}</strong></p>
+        </div>
+
+        <!-- Caja de mensajes -->
+        <div id="chat-box" class="chat-box">
+
+            {% for msg in mensajes %}
+                {% if msg.sender_id == session['user_id'] %}
+
+                    <!-- Mensaje propio -->
+                    <div class="msg msg-own">
+                        {{ msg.mensaje }}
+                    </div>
+
+                {% else %}
+
+                    <!-- Mensaje del otro -->
+                    <div class="msg msg-other">
+                        {{ msg.mensaje }}
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+        </div>
+
+        <!-- Formulario -->
+        <form action="{{ url_for('enviar_mensaje_route') }}" method="POST" class="chat-form">
+            <input type="hidden" name="chat_id" value="{{ chat_id }}">
+            <input type="hidden" name="other_id" value="{{ other_id }}">
+            
+            <input type="text"
+                name="mensaje"
+                placeholder="Escribe un mensaje..."
+                required
+                class="chat-input">
+
+            <button class="chat-send-btn">
+                Enviar
+            </button>
+        </form>
+
+    </section>
+
+</main>
+
+<script>
+    const chatBox = document.getElementById("chat-box");
+    chatBox.scrollTop = chatBox.scrollHeight;
+</script>
+
+{% endblock %}

@@ -5,7 +5,7 @@ from mysql.connector import errorcode
 # Configuración de la conexión MySQL
 db_config = {
     'user': 'root',
-    'password': 'MySQL1357',
+    'password': 'renzho02',
     'host': 'localhost',
     'database': 'prueba'
 }
@@ -218,7 +218,7 @@ def mostrar_productos():
 
     except:
         print("ERROR para mandar productos")
-        return None
+        return []
 
 # MOSTRAR TODOS LOS SERVICIOS
 def mostrar_servicios():
@@ -250,3 +250,48 @@ def mostrar_comida():
     cnx.close()
 
     return comidas
+
+def obtener_producto_por_id(producto_id):
+    try:
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor(dictionary=True)
+        
+        # Primero busca en productos
+        cursor.execute("SELECT * FROM producto WHERE ID = %s", (producto_id,))
+        producto = cursor.fetchone()
+        
+        if not producto:
+            # Si no está en productos, busca en servicios
+            cursor.execute("SELECT * FROM servicio WHERE ID = %s", (producto_id,))
+            producto = cursor.fetchone()
+            
+        if not producto:
+            # Si no está en servicios, busca en comida
+            cursor.execute("SELECT * FROM comida WHERE ID = %s", (producto_id,))
+            producto = cursor.fetchone()
+        
+        cursor.close()
+        cnx.close()
+        return producto
+        
+    except mysql.connector.Error as err:
+        print("Error al obtener producto:", err)
+        return None
+
+def obtener_usuario_por_id_completo(user_id):
+    """Obtiene todos los datos del usuario incluyendo nombre completo"""
+    try:
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute("SELECT id, fname, lastname, email FROM users WHERE id = %s", (user_id,))
+        usuario = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        
+        if usuario:
+            # Crear nombre completo
+            usuario['nombre_completo'] = f"{usuario['fname']} {usuario.get('lastname', '')}".strip()
+        return usuario
+    except mysql.connector.Error as err:
+        print("Error al obtener usuario completo:", err)
+        return None
